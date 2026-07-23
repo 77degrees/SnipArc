@@ -27,7 +27,6 @@
   <ItemGroup>
     <PackageReference Include="Tesseract" Version="5.2.0" />
     <PackageReference Include="ZXing.Net" Version="0.16.11" />
-    <PackageReference Include="KGySoft.Drawing.Core" Version="10.0.2" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="../../assets/tessdata/eng.traineddata">

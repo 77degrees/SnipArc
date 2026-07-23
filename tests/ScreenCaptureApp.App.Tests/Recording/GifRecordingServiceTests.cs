@@ -31,8 +31,16 @@ public sealed class GifRecordingServiceTests : IDisposable
             BitmapCreateOptions.PreservePixelFormat,
             BitmapCacheOption.OnLoad);
         Assert.Equal(2, decoder.Frames.Count);
-        BitmapMetadata metadata = Assert.IsType<BitmapMetadata>(decoder.Frames[0].Metadata);
-        Assert.InRange((ushort)metadata.GetQuery("/grctlext/Delay"), (ushort)12, (ushort)13);
+        Assert.All(decoder.Frames, frame =>
+        {
+            BitmapMetadata metadata = Assert.IsType<BitmapMetadata>(frame.Metadata);
+            Assert.InRange((ushort)metadata.GetQuery("/grctlext/Delay"), (ushort)12, (ushort)13);
+        });
+
+        byte[] encoded = await File.ReadAllBytesAsync(path);
+        Assert.True(
+            encoded.AsSpan().IndexOf("NETSCAPE2.0"u8) >= 0,
+            "The GIF must contain the infinite-loop application extension.");
     }
 
     private static BitmapSource CreateSolidFrame(byte red, byte green, byte blue)

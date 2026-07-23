@@ -51,6 +51,9 @@ user explicitly requests translation. Screenshot pixels are not sent. See
 - SnipArc source is licensed under the OSI-approved MIT License.
 - Third-party components and their licenses are listed in
   `THIRD_PARTY_NOTICES.md` and `licenses/`.
+- All non-system runtime components use OSI-approved licenses. Animated GIF
+  encoding uses the MIT-licensed WPF imaging stack rather than a custom-license
+  package.
 - The current unsigned alpha was published before signing integration. The
   repeatable `Unsigned release build` workflow now builds and tests the EXE,
   MSI, and extension on a GitHub-hosted Windows runner and uploads one immutable
