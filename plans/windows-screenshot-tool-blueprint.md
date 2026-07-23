@@ -93,18 +93,13 @@ The essential appeal is not merely taking a screenshot; Windows already does tha
 - Update notification from signed GitHub releases; user chooses when to download/install.
 - ARM64 build after the x64 release is stable.
 
-### P2 / explicitly out of initial scope
+### Expansion status after the initial alpha
 
-- Scrolling capture.
-- Video/GIF recording.
-- OCR and translation.
-- Browser extensions.
-- macOS/Linux versions.
-- Team accounts, cloud galleries, comments, or social login.
-- Capturing the Windows secure desktop, UAC prompts, DRM-protected video, or guaranteed exclusive-fullscreen game capture.
-- A silent background auto-updater that installs without user confirmation.
+- Implemented in `0.2.0-alpha`: user-stepped scrolling capture, animated GIF recording, local OCR/barcode recognition, optional translation, a Chromium visible-tab extension, and enterprise MSI/GPO source.
+- Still separate products or release operations: native macOS/Linux clients, hosted accounts/galleries/comments/social login, browser-store publication, and signed background updates.
+- Permanently unsupported from an ordinary user process: Windows secure desktop, UAC prompts, DRM-protected video, and guaranteed exclusive-fullscreen game capture.
 
-These exclusions protect the core “hotkey → mark up → copy/share” experience from becoming a ShareX-sized product before it is reliable.
+Expansion features stay behind separate services and commands so the core “hotkey → mark up → copy/save” path remains fast and works offline.
 
 ## 4. Nonfunctional Requirements
 

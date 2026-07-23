@@ -20,15 +20,23 @@ public partial class OverlayWindow : Window
     private readonly CaptureSurface _surface;
     private readonly Func<BitmapSource, Task<bool>> _copyAsync;
     private readonly Func<BitmapSource, bool, bool, Task<bool>> _saveAsync;
+    private readonly Func<BitmapSource, Task<bool>> _analyzeAsync;
+    private readonly Action<Rect> _recordGif;
+    private readonly Action<Rect> _scrollingCapture;
     private int _colorIndex;
     private bool _operationInProgress;
 
     internal OverlayWindow(BitmapSource source, Rect virtualBounds, IReadOnlyList<WindowSuggestion> windowSuggestions,
-        Func<BitmapSource, Task<bool>> copyAsync, Func<BitmapSource, bool, bool, Task<bool>> saveAsync)
+        Func<BitmapSource, Task<bool>> copyAsync, Func<BitmapSource, bool, bool, Task<bool>> saveAsync,
+        Func<BitmapSource, Task<bool>> analyzeAsync, Action<Rect, Rect> recordGif,
+        Action<Rect, Rect> scrollingCapture)
     {
         InitializeComponent();
         _copyAsync = copyAsync;
         _saveAsync = saveAsync;
+        _analyzeAsync = analyzeAsync;
+        _recordGif = selection => recordGif(selection, virtualBounds);
+        _scrollingCapture = selection => scrollingCapture(selection, virtualBounds);
         _surface = new CaptureSurface(source, windowSuggestions);
         _surface.StateChanged += Surface_StateChanged;
         _surface.TextRequested += Surface_TextRequested;
@@ -92,6 +100,19 @@ public partial class OverlayWindow : Window
     private async void Copy_Click(object sender, RoutedEventArgs e) => await CompleteAsync(_copyAsync);
     private async void Save_Click(object sender, RoutedEventArgs e) => await CompleteAsync(image => _saveAsync(image, false, _surface.HasOpaqueRedactions));
     private async void SaveAs_Click(object sender, RoutedEventArgs e) => await CompleteAsync(image => _saveAsync(image, true, _surface.HasOpaqueRedactions));
+    private async void Analyze_Click(object sender, RoutedEventArgs e) => await CompleteAsync(_analyzeAsync);
+    private void RecordGif_Click(object sender, RoutedEventArgs e)
+    {
+        if (!_surface.HasSelection || _operationInProgress) return;
+        _recordGif(_surface.Selection);
+        Close();
+    }
+    private void ScrollingCapture_Click(object sender, RoutedEventArgs e)
+    {
+        if (!_surface.HasSelection || _operationInProgress) return;
+        _scrollingCapture(_surface.Selection);
+        Close();
+    }
     private void Cancel_Click(object sender, RoutedEventArgs e) => Close();
 
     private async Task CompleteAsync(Func<BitmapSource, Task<bool>> action)
@@ -120,6 +141,8 @@ public partial class OverlayWindow : Window
     {
         UndoButton.IsEnabled = _surface.CanUndo;
         RedoButton.IsEnabled = _surface.CanRedo;
+        RecordGifButton.IsEnabled = !_surface.IsSelectionLocked;
+        ScrollingCaptureButton.IsEnabled = !_surface.IsSelectionLocked;
         ToolPanel.Visibility = ActionPanel.Visibility = _surface.HasSelection ? Visibility.Visible : Visibility.Hidden;
         PositionToolbars();
     }

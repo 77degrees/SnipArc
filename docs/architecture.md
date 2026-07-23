@@ -298,6 +298,8 @@ Publish `win-x64` as a self-contained folder. Inno Setup packages the complete f
 
 Single-file .NET publishing is optional. It should be enabled only if native dependency, extraction, antivirus, and cold-start tests show no regression. The user-facing requirement is one installer EXE, not one physical file inside the installation directory.
 
+The consumer package remains the per-user Inno Setup EXE. Managed environments can build the separate WiX 5 per-machine MSI under `packaging/enterprise`; the MSI harvests the exact self-contained publish directory and is paired with ADMX/ADML policy definitions. Neither distribution is trusted for public use until its complete payload is signed and validated.
+
 ## 14. Failure-handling rules
 
 | Failure | Required behavior |
@@ -322,6 +324,20 @@ Single-file .NET publishing is optional. It should be enabled only if native dep
 - GDI/User handle soak tests show zero net growth.
 - The exact install payload runs in a fresh Windows VM with no separate .NET installation.
 
+## 16. Expansion components
+
+| Component | Boundary | Data behavior |
+|---|---|---|
+| `VerticalFrameStitcher` | Platform-neutral BGRA32 frame composition in Core | Finds sampled vertical overlap and returns one in-memory image; no I/O or network |
+| `ScrollingCaptureService` | Windows capture plus PNG output | Captures only the fixed viewport chosen by the user; writes only on Finish |
+| `GifRecordingService` | Windows capture plus animated GIF encoding | Streams frames into a temporary encoder file, publishes atomically, and limits recording to 15 seconds and 1280 pixels |
+| `ImageRecognitionService` | Local Tesseract and ZXing adapters | OCR and barcode pixels remain in process; output text is not logged or persisted |
+| `TranslationService` | Optional HTTP boundary | Sends extracted text only after a user action and only to the configured endpoint |
+| Chromium extension | Browser process, independent of desktop IPC | Stores a pending PNG in extension session storage and supports local crop/copy/download |
+| Enterprise policy provider | Read-only HKLM/HKCU policy boundary | Machine policy wins over user policy; managed values override JSON preferences at runtime |
+
+Cloud/community features are not folded into the tray process. If built, they require a separately deployed service, explicit authentication and upload interfaces, their own data-retention controls, and independent security review. Native macOS/Linux clients likewise share only platform-neutral models and protocols; they do not attempt to reuse WPF or Win32 capture code.
+
 ## References
 
 - [.NET support policy](https://dotnet.microsoft.com/en-us/platform/support/policy)
@@ -329,4 +345,7 @@ Single-file .NET publishing is optional. It should be enabled only if native dep
 - [High-DPI desktop development](https://learn.microsoft.com/en-us/windows/win32/hidpi/high-dpi-desktop-application-development-on-windows)
 - [RegisterHotKey](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-registerhotkey)
 - [Windows screen capture](https://learn.microsoft.com/en-us/windows/apps/develop/media-authoring-processing/screen-capture)
+- [Microsoft Edge native/browser extension architecture](https://learn.microsoft.com/en-us/microsoft-edge/extensions-chromium/)
+- [Registry-backed administrative policy](https://learn.microsoft.com/en-us/windows/client-management/understanding-admx-backed-policies)
+- [WiX file harvesting](https://docs.firegiant.com/wix/schema/wxs/files/)
 - [Inno Setup](https://jrsoftware.org/isinfo.php)

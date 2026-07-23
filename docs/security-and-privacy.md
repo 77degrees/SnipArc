@@ -170,6 +170,43 @@ Controls:
 - Never silently overwrite.
 - Quote executable paths written to the startup registry value.
 
+### T-10: Recognition or translation disclosure
+
+Risk: Image pixels, extracted text, or confidential barcodes leave the device without clear intent.
+
+Controls:
+
+- OCR and barcode recognition use bundled local engines and make no HTTP request.
+- Do not log image pixels, OCR text, barcode values, or translation bodies.
+- Translation is disabled until the user configures an endpoint and presses Translate.
+- Accept HTTPS translation endpoints; allow HTTP only for loopback development.
+- Send extracted text only, never the source image.
+- Managed environments can disable translation through policy.
+
+### T-11: Browser-extension capture exposure
+
+Risk: A browser capture is retained, uploaded, or made available to unrelated pages or extensions.
+
+Controls:
+
+- Request `activeTab` rather than broad host permissions.
+- Capture only after the user clicks the extension action.
+- Keep the pending PNG in extension session storage.
+- Perform crop, copy, and download in the extension origin without remote scripts or network APIs.
+- Browser-protected pages remain unavailable by platform design.
+
+### T-12: Recording and scrolling-capture residue
+
+Risk: A canceled capture leaves partial files or unbounded image data.
+
+Controls:
+
+- Bound animated GIF duration, frame interval, and maximum dimension.
+- Exclude capture-control windows and omit the mouse pointer from repeated frames.
+- Use sibling partial files and atomic rename for completed outputs.
+- Delete partial files on encoder failure and delete completed GIF output when the user cancels.
+- Keep scrolling pages only in memory until Finish; Cancel writes nothing.
+
 ## 6. Upload-service requirements
 
 If a first-party service is built, it is a separate project and deployment boundary. At minimum it must provide:
@@ -209,6 +246,8 @@ Forbidden fields:
 - Full upload URLs.
 - Authorization headers, cookies, API keys, deletion tokens, or signed query parameters.
 - Usernames, email addresses, or unrelated device identifiers.
+
+Translation request bodies, barcode values, and recognition confidence details are also forbidden.
 
 Logs should use a bounded rolling policy with a documented retention period and a user-facing delete action.
 

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SnipArc Browser Capture</title>
+  <link rel="stylesheet" href="editor.css">
+</head>
+<body>
+  <header>
+    <div>
+      <h1>SnipArc</h1>
+      <p id="capture-meta">Browser capture</p>
+    </div>
+    <nav aria-label="Capture actions">
+      <button id="crop" disabled>Crop selection</button>
+      <button id="reset" disabled>Reset</button>
+      <button id="copy" class="primary" disabled>Copy</button>
+      <button id="download" disabled>Download PNG</button>
+    </nav>
+  </header>
+  <main>
+    <p id="instructions">Drag over the image to choose a crop, or copy/download the full visible tab.</p>
+    <div id="canvas-shell">
+      <canvas id="capture" aria-label="Captured browser tab"></canvas>
+    </div>
+    <p id="status" role="status" aria-live="polite">Loading capture…</p>
+  </main>
+  <script src="editor.js"></script>
+</body>
+</html>
