@@ -12,7 +12,7 @@ A fast, local-only Windows screenshot and annotation tool built for low-friction
 ## Install the alpha
 
 Download `SnipArc-Setup-x64.exe` from the
-[latest GitHub release](https://github.com/77degrees/SnipArc/releases/latest).
+[GitHub releases](https://github.com/77degrees/SnipArc/releases).
 It installs per user under `%LocalAppData%\Programs\ScreenCaptureApp` and does
 not require administrator rights. The internal folder and executable names
 intentionally remain `ScreenCaptureApp` during the alpha so existing
