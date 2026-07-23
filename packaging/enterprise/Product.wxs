@@ -1,0 +1,40 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package
+      Name="SnipArc"
+      Manufacturer="77degrees"
+      Version="0.2.0.0"
+      UpgradeCode="E7A3A30F-2912-4EC2-B74D-788A485EA6B1"
+      Scope="perMachine"
+      InstallerVersion="500">
+    <SummaryInformation Description="SnipArc enterprise deployment package" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of SnipArc is already installed." />
+    <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="SnipArc" />
+    </StandardDirectory>
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="ApplicationProgramsFolder" Name="SnipArc" />
+    </StandardDirectory>
+
+    <Files Include="$(var.PublishDir)\**" Directory="INSTALLFOLDER">
+      <Exclude Files="$(var.PublishDir)\ScreenCaptureApp.exe" />
+    </Files>
+
+    <Component Id="SnipArcExecutableComponent" Directory="INSTALLFOLDER" Bitness="always64">
+      <File Id="SnipArcExecutable"
+            Source="$(var.PublishDir)\ScreenCaptureApp.exe"
+            KeyPath="yes">
+        <Shortcut Id="SnipArcStartMenuShortcut"
+                  Directory="ApplicationProgramsFolder"
+                  Name="SnipArc"
+                  Description="Capture and annotate screenshots"
+                  WorkingDirectory="INSTALLFOLDER"
+                  Advertise="yes" />
+      </File>
+      <RemoveFolder Id="RemoveApplicationProgramsFolder"
+                    Directory="ApplicationProgramsFolder"
+                    On="uninstall" />
+    </Component>
+  </Package>
+</Wix>

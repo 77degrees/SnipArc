@@ -19,6 +19,8 @@ internal sealed record AppLocalSettings
     public bool OverrideWindowsSnippingShortcut { get; init; }
     public string? LastOutputFolder { get; init; }
     public string Hotkey { get; init; } = "PrintScreen";
+    public string? TranslationEndpoint { get; init; }
+    public string TranslationTargetLanguage { get; init; } = "en";
 }
 
 internal sealed class AppSettingsRepository

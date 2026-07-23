@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<policyDefinitions revision="1.0" schemaVersion="1.0">
+  <policyNamespaces>
+    <target prefix="sniparc" namespace="SnipArc.Policies" />
+    <using prefix="windows" namespace="Microsoft.Policies.Windows" />
+  </policyNamespaces>
+  <resources minRequiredRevision="1.0" />
+  <supportedOn>
+    <definitions>
+      <definition name="SUPPORTED_WIN11" displayName="$(string.SUPPORTED_WIN11)" />
+    </definitions>
+  </supportedOn>
+  <categories>
+    <category name="SnipArc" displayName="$(string.SnipArcCategory)" />
+  </categories>
+  <policies>
+    <policy name="DisableTranslation" class="Both"
+            displayName="$(string.DisableTranslation)"
+            explainText="$(string.DisableTranslation_Help)"
+            key="Software\Policies\77degrees\SnipArc"
+            valueName="DisableTranslation">
+      <parentCategory ref="SnipArc" />
+      <supportedOn ref="SUPPORTED_WIN11" />
+      <enabledValue><decimal value="1" /></enabledValue>
+      <disabledValue><decimal value="0" /></disabledValue>
+    </policy>
+    <policy name="CaptureFolder" class="Both"
+            displayName="$(string.CaptureFolder)"
+            explainText="$(string.CaptureFolder_Help)"
+            key="Software\Policies\77degrees\SnipArc"
+            valueName="CaptureFolder">
+      <parentCategory ref="SnipArc" />
+      <supportedOn ref="SUPPORTED_WIN11" />
+      <elements>
+        <text id="CaptureFolderPath" valueName="CaptureFolder" required="true" />
+      </elements>
+    </policy>
+    <policy name="StartWithWindows" class="Both"
+            displayName="$(string.StartWithWindows)"
+            explainText="$(string.StartWithWindows_Help)"
+            key="Software\Policies\77degrees\SnipArc"
+            valueName="StartWithWindows">
+      <parentCategory ref="SnipArc" />
+      <supportedOn ref="SUPPORTED_WIN11" />
+      <enabledValue><decimal value="1" /></enabledValue>
+      <disabledValue><decimal value="0" /></disabledValue>
+    </policy>
+  </policies>
+</policyDefinitions>

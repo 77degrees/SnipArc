@@ -1,0 +1,5 @@
+# Signing policies and release automation require maintainer review.
+/.github/workflows/ @77degrees
+/.signpath/ @77degrees
+/installer/ @77degrees
+/packaging/ @77degrees
