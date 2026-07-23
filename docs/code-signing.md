@@ -51,7 +51,10 @@ user explicitly requests translation. Screenshot pixels are not sent. See
 - SnipArc source is licensed under the OSI-approved MIT License.
 - Third-party components and their licenses are listed in
   `THIRD_PARTY_NOTICES.md` and `licenses/`.
-- Release artifacts are produced on GitHub-hosted Windows runners.
+- The current unsigned alpha was published before signing integration. The
+  repeatable `Unsigned release build` workflow now builds and tests the EXE,
+  MSI, and extension on a GitHub-hosted Windows runner and uploads one immutable
+  signing-input artifact.
 - Release source, workflow, commit, tests, and checksums remain publicly
   inspectable.
 - No proprietary SnipArc source or separate commercial edition exists.
@@ -73,6 +76,11 @@ After approval, the maintainer will:
 
 The exact workflow identifiers cannot be committed before SignPath creates the
 project and signing policy.
+
+The unsigned half of this process is already implemented in
+`.github/workflows/release-build.yml`. Its raw ZIP artifact preserves the EXE,
+MSI, extension, and checksums as one immutable GitHub artifact whose
+`artifact-id` can be submitted to SignPath after onboarding.
 
 ## Official references
 
