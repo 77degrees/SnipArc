@@ -25,6 +25,9 @@
 - Replaced the generic crop-frame icon with an original crop-corners, cyan gesture-arc, and violet-spark mark.
 - Renamed the generated installer to `SnipArc-Setup-x64.exe`.
 - Selected the SignPath Foundation open-source program as the no-cost trusted-signing path; releases remain explicitly unsigned until the application is approved.
+- Replaced the custom-license GIF dependency with a first-party streaming
+  encoder built on the MIT-licensed WPF imaging stack, leaving only
+  OSI-approved non-system runtime dependencies.
 
 ## 0.1.0-alpha — 2026-07-20
 
