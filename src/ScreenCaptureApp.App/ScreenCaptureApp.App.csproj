@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>ScreenCaptureApp.App</RootNamespace>
+    <AssemblyName>ScreenCaptureApp</AssemblyName>
+    <AssemblyTitle>SnipArc</AssemblyTitle>
+    <Title>SnipArc</Title>
+    <Product>SnipArc</Product>
+    <Company>77degrees</Company>
+    <Description>Fast, private screenshot capture and annotation for Windows.</Description>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>../../assets/app-icon.ico</ApplicationIcon>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <PublishTrimmed>false</PublishTrimmed>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../ScreenCaptureApp.Core/ScreenCaptureApp.Core.csproj" />
+    <ProjectReference Include="../ScreenCaptureApp.Windows/ScreenCaptureApp.Windows.csproj" />
+  </ItemGroup>
+</Project>

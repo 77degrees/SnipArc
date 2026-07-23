@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Restore
+        run: dotnet restore ScreenCaptureApp.slnx
+      - name: Build
+        run: dotnet build ScreenCaptureApp.slnx -c Release --no-restore
+      - name: Test
+        run: dotnet test ScreenCaptureApp.slnx -c Release --no-build
+      - name: Publish self-contained application
+        run: >-
+          dotnet publish src/ScreenCaptureApp.App/ScreenCaptureApp.App.csproj
+          -c Release -r win-x64 --self-contained true
+          --no-build -o artifacts/app/win-x64
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ScreenCaptureApp-win-x64
+          path: artifacts/app/win-x64

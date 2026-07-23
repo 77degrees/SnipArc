@@ -1,0 +1,63 @@
+<Window x:Class="ScreenCaptureApp.App.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SnipArc settings" Width="580" Height="500" MinWidth="540" MinHeight="470"
+        WindowStartupLocation="CenterScreen" ShowInTaskbar="True">
+  <Grid Margin="24">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" /><RowDefinition Height="Auto" /><RowDefinition Height="*" /><RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <TextBlock Text="Settings" FontSize="25" FontWeight="SemiBold" Margin="0,0,0,20" />
+
+    <Grid Grid.Row="1" Margin="0,0,0,16">
+      <Grid.ColumnDefinitions><ColumnDefinition Width="150" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+      <TextBlock Text="Capture folder" VerticalAlignment="Center" />
+      <TextBox x:Name="FolderBox" Grid.Column="1" MinHeight="32" VerticalContentAlignment="Center" AutomationProperties.Name="Capture folder" />
+      <Button Grid.Column="2" Content="Browse…" Click="Browse_Click" AutomationProperties.Name="Browse for capture folder" />
+    </Grid>
+
+    <Grid Grid.Row="2" Margin="0,0,0,16">
+      <Grid.ColumnDefinitions><ColumnDefinition Width="150" /><ColumnDefinition Width="150" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+      <TextBlock Text="Quick-save format" VerticalAlignment="Center" />
+      <ComboBox x:Name="FormatBox" Grid.Column="1" MinHeight="32" VerticalContentAlignment="Center" AutomationProperties.Name="Quick-save image format">
+        <ComboBoxItem Content="PNG" Tag="Png" /><ComboBoxItem Content="JPEG" Tag="Jpeg" /><ComboBoxItem Content="BMP" Tag="Bmp" />
+      </ComboBox>
+    </Grid>
+
+    <Grid Grid.Row="3" Margin="0,0,0,16">
+      <Grid.ColumnDefinitions><ColumnDefinition Width="150" /><ColumnDefinition Width="*" /><ColumnDefinition Width="45" /></Grid.ColumnDefinitions>
+      <TextBlock Text="JPEG quality" VerticalAlignment="Center" />
+      <Slider x:Name="QualitySlider" Grid.Column="1" Minimum="50" Maximum="100" TickFrequency="1" IsSnapToTickEnabled="True"
+              ValueChanged="QualitySlider_ValueChanged" AutomationProperties.Name="JPEG quality" />
+      <TextBlock x:Name="QualityLabel" Grid.Column="2" VerticalAlignment="Center" TextAlignment="Right" />
+    </Grid>
+
+    <Grid Grid.Row="4" Margin="0,0,0,16">
+      <Grid.ColumnDefinitions><ColumnDefinition Width="150" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+      <TextBlock Text="Capture shortcut" VerticalAlignment="Center" />
+      <ComboBox x:Name="HotkeyBox" Grid.Column="1" Width="190" HorizontalAlignment="Left" MinHeight="32" VerticalContentAlignment="Center"
+                AutomationProperties.Name="Global capture shortcut">
+        <ComboBoxItem Content="Print Screen" Tag="PrintScreen" />
+        <ComboBoxItem Content="Ctrl + Shift + 4" Tag="CtrlShift4" />
+        <ComboBoxItem Content="Ctrl + Shift + S" Tag="CtrlShiftS" />
+      </ComboBox>
+    </Grid>
+
+    <StackPanel Grid.Row="5">
+      <CheckBox x:Name="StartupBox" Content="Start SnipArc when I sign in" Margin="0,5" />
+      <CheckBox x:Name="CursorBox" Content="Include the mouse pointer in captures" Margin="0,5" />
+      <CheckBox x:Name="NotificationsBox" Content="Show save and copy notifications" Margin="0,5" />
+      <CheckBox x:Name="OverrideSnippingBox" Content="Use Windows + Shift + S for this app instead of Snipping Tool" Margin="0,5"
+                AutomationProperties.Name="Override the Windows Snipping Tool shortcut"
+                AutomationProperties.HelpText="While SnipArc is running, Windows plus Shift plus S opens SnipArc instead of Snipping Tool." />
+      <TextBlock Margin="0,18,0,0" Foreground="#686870" TextWrapping="Wrap"
+                 Text="Screenshots stay on this computer unless you explicitly save or copy them. This local-only alpha does not include uploading or telemetry." />
+    </StackPanel>
+
+    <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
+      <Button Content="Cancel" IsCancel="True" />
+      <Button Content="Save settings" IsDefault="True" Click="Save_Click" Background="{StaticResource AccentBrush}" Foreground="White" />
+    </StackPanel>
+  </Grid>
+</Window>
