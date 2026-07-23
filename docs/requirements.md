@@ -184,18 +184,7 @@ Priority definitions:
 | NFR-011 | Offline | Capture, annotation, clipboard, settings, and local saving remain usable with no network |
 | NFR-012 | Maintainability | Capture, compositor, and upload providers are behind interfaces testable without production services |
 
-## 7. Explicit limitations
-
-Version 1.0 does not guarantee capture of:
-
-- Windows secure desktop or UAC prompts.
-- DRM-protected content.
-- Exclusive-fullscreen games.
-- Content intentionally protected from screen capture by the source application or policy.
-
-These cases must fail safely or be documented; the application must not attempt to bypass OS or content protections.
-
-## 8. Deferred scope
+## 7. Deferred scope
 
 - Scrolling capture.
 - Video or animated GIF recording.
@@ -206,6 +195,6 @@ These cases must fail safely or be documented; the application must not attempt 
 - Enterprise MSI/GPO packaging.
 - Silent background installation of updates.
 
-## 9. Version 1.0 definition of done
+## 8. Version 1.0 definition of done
 
 Version 1.0 is complete when all applicable P0 requirements have evidence in the [testing strategy](testing.md), no P0 defects remain open, the exact signed installer hash passes release testing, and privacy inspection finds no unintended image persistence or network traffic.
