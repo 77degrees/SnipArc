@@ -5,8 +5,9 @@
 Verified on 2026-07-22:
 
 - Release build: zero warnings and zero errors.
-- Automated tests: 84 passed (46 core, 34 Windows infrastructure, 4 app/export behavior).
-- Self-contained `win-x64` publish and Inno Setup compilation succeeded.
+- Automated tests: 90 passed (48 core, 34 Windows infrastructure, 8 app/export/recognition behavior).
+- Self-contained `win-x64` publish, Inno Setup compilation, and WiX 5 MSI compilation succeeded.
+- Extension JavaScript syntax, manifest JSON, and ADMX/ADML XML validation passed.
 - Silent per-user install, tray-process startup, second-instance handoff, capture overlay, and uninstall were exercised locally.
 - The compact overlay and directional resize cursors were visually confirmed in an interactive Windows session.
 
@@ -34,6 +35,7 @@ Testing must prove more than “a screenshot appeared.” Version 1.0 requires e
 | Core unit | GitHub-hosted Windows runner | Geometry, commands, settings validation, filename rules, upload policy logic |
 | Windows integration | Dedicated interactive Windows VM | Hotkeys, clipboard, tray, overlays, registry, capture, DPI, installer UI |
 | Golden image | CI plus interactive VM | Annotation/compositor pixels, encoders, redaction, color tolerances |
+| Media/recognition | CI plus interactive VM | Scrolling overlap, GIF timing/looping, OCR language data, barcode formats, translation boundary |
 | HTTP integration | Local fake server | Upload success/failure/cancel, redirect, credential and timeout behavior |
 | Installer | Fresh VM/Sandbox snapshots | Clean install, prior-version upgrade, reinstall, interruption recovery, silent switches, uninstall |
 | Manual hardware | Physical/VM display matrix | Mixed DPI, HDR, multiple monitors, portrait, RDP, common paste targets |
@@ -236,6 +238,22 @@ Assertions:
 
 Production endpoints are never called from CI.
 
+### Scrolling, recording, and recognition
+
+Automated coverage must include:
+
+- Reconstructing known vertically overlapping slices without dropping or duplicating rows.
+- Appending pages when no overlap meets the documented similarity threshold.
+- Encoding a one-page scrolling capture as a decodable PNG with exact dimensions.
+- Encoding at least two visually different GIF frames with nonzero delay and infinite repeat metadata.
+- Bounding GIF duration, frame count, dimensions, and cancellation cleanup.
+- Decoding a generated QR image through the production barcode path.
+- Starting the production OCR engine with bundled English language data.
+- Persisting translation endpoint and target language settings.
+- Rejecting non-HTTPS translation endpoints except loopback.
+
+Interactive coverage includes dynamic web pages, native scrolling controls, a full-screen recording region, display changes during capture, and visual GIF playback in common browsers and image viewers. Translation tests use a local compatible server and verify that only extracted text is transmitted.
+
 ## 10. Installer tests
 
 Run each scenario from a clean snapshot with a standard user account:
@@ -355,6 +373,8 @@ Reference-machine specifications must be recorded with results.
 - Known platform limitations are documented.
 - No screenshot content or secret exposure remains.
 - Upgrade from the prior beta/stable version is verified.
+- Browser extension store review is complete when that distribution is included.
+- Enterprise MSI and ADMX are validated through a domain or Intune test tenant when that profile is included.
 
 ## 14. Requirement traceability
 

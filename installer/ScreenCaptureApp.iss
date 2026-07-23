@@ -1,6 +1,6 @@
 #define AppName "SnipArc"
 #define AppExeName "ScreenCaptureApp.exe"
-#define AppVersion "0.1.0"
+#define AppVersion "0.2.0"
 #define AppPublisher "77degrees"
 #ifndef PublishDir
   #define PublishDir "..\artifacts\app\win-x64"

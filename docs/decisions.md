@@ -177,16 +177,14 @@ Consequences: Complete formal trademark review before a public paid release. Kee
 
 ### DEC-011 - Source license
 
-Status: Open
-Required before: accepting outside contributions or public release
+Status: Accepted
+Date: 2026-07-22
 
-Recommended default: MIT for a simple permissive open-source utility, unless a stronger reciprocal license is a deliberate goal.
+Decision: License SnipArc under the MIT License with copyright held by `77degrees`.
 
-Questions:
+Rationale: MIT is OSI-approved, concise, permissive, familiar to contributors, and compatible with the intended free open-source signing application.
 
-- Should commercial redistribution be allowed?
-- Should modifications be required to remain open source?
-- Will a hosted service use the same or a separate license?
+Consequences: Commercial use, redistribution, modification, and forks are permitted when the copyright and license notice are preserved. Third-party components retain their own licenses.
 
 ### DEC-012 - Version 1.0 upload profile
 
@@ -203,17 +201,14 @@ Recommendation: Ship a reliable local-only beta first. Add generic or first-part
 
 ### DEC-013 - Code signing
 
-Status: Open
-Required before: public stable release
+Status: Accepted
+Date: 2026-07-22
 
-Options:
+Decision: Apply to the SignPath Foundation open-source program for free trusted Authenticode signing. Until approval, publish only clearly labeled unsigned alpha artifacts with SHA-256 checksums.
 
-- Azure Artifact Signing for eligible US individuals/organizations.
-- A traditional CA-issued RSA code-signing certificate.
-- Microsoft Store MSIX later, where the Store signs the package.
-- Qualifying open-source signing program.
+Rationale: SnipArc will be public and MIT-licensed, making an open-source signing program preferable to a recurring Azure Artifact Signing subscription. SignPath's GitHub origin verification also ties signed binaries to public build provenance.
 
-Recommendation: Unsigned builds are acceptable only for clearly labeled private/internal alpha testing. Use one consistent trusted RSA signing identity for any public stable EXE release.
+Consequences: The Windows signature will identify SignPath Foundation as publisher. Approval is external and not guaranteed. The release workflow must use GitHub-hosted runners, origin verification, and a SignPath-issued project/policy configuration.
 
 ## Decision template
 

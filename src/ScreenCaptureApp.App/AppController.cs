@@ -6,10 +6,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Microsoft.Win32;
 using ScreenCaptureApp.Core.Geometry;
+using ScreenCaptureApp.App.Recognition;
+using ScreenCaptureApp.App.Recording;
+using ScreenCaptureApp.App.Scrolling;
 using ScreenCaptureApp.Windows.Capture;
 using ScreenCaptureApp.Windows.Clipboard;
 using ScreenCaptureApp.Windows.Displays;
 using ScreenCaptureApp.Windows.Hotkeys;
+using ScreenCaptureApp.Windows.Policies;
 using ScreenCaptureApp.Windows.Startup;
 using ScreenCaptureApp.Windows.Windowing;
 using MessageBox = System.Windows.MessageBox;
@@ -31,10 +35,16 @@ internal sealed class AppController : IDisposable
     private readonly GlobalHotkeyService _hotkey;
     private readonly WindowsSnippingShortcutService _windowsSnippingShortcut = new();
     private readonly ClipboardService _clipboard;
+    private readonly ImageRecognitionService _recognition = new();
+    private readonly GifRecordingService _gifRecording;
+    private readonly ScrollingCaptureService _scrollingCapture;
     private readonly System.Drawing.Icon _appIcon;
     private readonly WinForms.NotifyIcon _trayIcon;
     private AppLocalSettings _settings = new();
+    private AppPolicy _policy = new(false, null, null);
     private OverlayWindow? _overlay;
+    private GifRecordingWindow? _gifRecordingWindow;
+    private ScrollingCaptureWindow? _scrollingCaptureWindow;
     private bool _captureStarting;
     private bool _openSettingsFromBalloon;
     private bool _disposed;
@@ -53,6 +63,8 @@ internal sealed class AppController : IDisposable
         _hotkey.HotkeyPressed += (_, _) => _dispatcher.BeginInvoke(BeginCapture);
         _windowsSnippingShortcut.ShortcutPressed += (_, _) => _dispatcher.BeginInvoke(BeginCapture);
         _clipboard = new ClipboardService(dispatcher);
+        _gifRecording = new GifRecordingService(_captureBackend, _topology);
+        _scrollingCapture = new ScrollingCaptureService(_captureBackend, _topology);
         _appIcon = LoadAppIcon();
         _trayIcon = CreateTrayIcon();
     }
@@ -60,6 +72,8 @@ internal sealed class AppController : IDisposable
     public async Task InitializeAsync()
     {
         _settings = await _settingsRepository.LoadAsync();
+        _policy = AppPolicyProvider.Load();
+        _settings = ApplyPolicy(_settings, _policy);
         _trayIcon.Visible = true;
         SystemEvents.DisplaySettingsChanged += OnDisplaySettingsChanged;
         ApplyStartupSetting(_settings.StartWithWindows);
@@ -69,7 +83,9 @@ internal sealed class AppController : IDisposable
 
     public void BeginCapture()
     {
-        if (_disposed || _captureStarting || _overlay is { IsVisible: true }) return;
+        if (_disposed || _captureStarting || _overlay is { IsVisible: true } ||
+            _gifRecordingWindow is { IsVisible: true } ||
+            _scrollingCaptureWindow is { IsVisible: true }) return;
         try
         {
             _captureStarting = true;
@@ -95,7 +111,15 @@ internal sealed class AppController : IDisposable
                         window.Bounds.Width,
                         window.Bounds.Height)))
                 .ToArray();
-            _overlay = new OverlayWindow(displayImage, bounds, windowSuggestions, CopyAsync, SaveAsync);
+            _overlay = new OverlayWindow(
+                displayImage,
+                bounds,
+                windowSuggestions,
+                CopyAsync,
+                SaveAsync,
+                AnalyzeAsync,
+                ScheduleGifRecording,
+                ScheduleScrollingCapture);
             _overlay.Closed += (_, _) => _overlay = null;
             _overlay.Show();
         }
@@ -144,6 +168,77 @@ internal sealed class AppController : IDisposable
 
         Notify("Screenshot copied", "The selected image is ready to paste.");
         return true;
+    }
+
+    private async Task<bool> AnalyzeAsync(BitmapSource image)
+    {
+        ImageRecognitionResult result = await _recognition.RecognizeAsync(image);
+        RecognitionWindow window = new(
+            result,
+            _settings.TranslationEndpoint,
+            _settings.TranslationTargetLanguage)
+        {
+            Owner = _overlay
+        };
+        _ = window.ShowDialog();
+        return false;
+    }
+
+    private void ScheduleGifRecording(Rect selection, Rect captureBounds)
+    {
+        int left = checked((int)Math.Round(captureBounds.Left + selection.Left));
+        int top = checked((int)Math.Round(captureBounds.Top + selection.Top));
+        int width = Math.Max(1, checked((int)Math.Round(selection.Width)));
+        int height = Math.Max(1, checked((int)Math.Round(selection.Height)));
+        PhysicalRect bounds = new(left, top, width, height);
+
+        _dispatcher.BeginInvoke(() =>
+        {
+            Directory.CreateDirectory(_settings.CaptureFolder);
+            string path = FindAvailablePath(
+                _settings.CaptureFolder,
+                $"Recording {DateTime.Now:yyyy-MM-dd HH-mm-ss}",
+                ".gif");
+            _gifRecordingWindow = new GifRecordingWindow(
+                _gifRecording,
+                bounds,
+                path,
+                (savedPath, frameCount) =>
+                    Notify("Animated GIF saved", $"{frameCount} frames saved to {savedPath}"));
+            _gifRecordingWindow.Closed += (_, _) =>
+            {
+                _gifRecordingWindow?.Dispose();
+                _gifRecordingWindow = null;
+            };
+            _gifRecordingWindow.Show();
+        }, DispatcherPriority.ApplicationIdle);
+    }
+
+    private void ScheduleScrollingCapture(Rect selection, Rect captureBounds)
+    {
+        int left = checked((int)Math.Round(captureBounds.Left + selection.Left));
+        int top = checked((int)Math.Round(captureBounds.Top + selection.Top));
+        int width = Math.Max(1, checked((int)Math.Round(selection.Width)));
+        int height = Math.Max(1, checked((int)Math.Round(selection.Height)));
+        PhysicalRect bounds = new(left, top, width, height);
+
+        _dispatcher.BeginInvoke(() =>
+        {
+            Directory.CreateDirectory(_settings.CaptureFolder);
+            string path = FindAvailablePath(
+                _settings.CaptureFolder,
+                $"Scrolling capture {DateTime.Now:yyyy-MM-dd HH-mm-ss}",
+                ".png");
+            _scrollingCaptureWindow = new ScrollingCaptureWindow(
+                _scrollingCapture,
+                bounds,
+                path,
+                result => Notify(
+                    "Scrolling capture saved",
+                    $"{result.PageCount} pages stitched into {result.PixelHeight:N0} pixels at {result.Path}"));
+            _scrollingCaptureWindow.Closed += (_, _) => _scrollingCaptureWindow = null;
+            _scrollingCaptureWindow.Show();
+        }, DispatcherPriority.ApplicationIdle);
     }
 
     private async Task<bool> SaveAsync(BitmapSource image, bool saveAs, bool hasOpaqueRedactions)
@@ -228,10 +323,10 @@ internal sealed class AppController : IDisposable
 
     private async void ShowSettings()
     {
-        var window = new SettingsWindow(_settings);
+        var window = new SettingsWindow(_settings, _policy);
         if (window.ShowDialog() != true) return;
         var prior = _settings;
-        var candidate = window.Settings;
+        var candidate = ApplyPolicy(window.Settings, _policy);
         var hotkeyChanged = !string.Equals(prior.Hotkey, candidate.Hotkey, StringComparison.Ordinal);
         var snippingOverrideChanged = prior.OverrideWindowsSnippingShortcut != candidate.OverrideWindowsSnippingShortcut;
         if (hotkeyChanged && !_hotkey.TryRegister(ToGesture(candidate.Hotkey), out var hotkeyError))
@@ -329,7 +424,7 @@ internal sealed class AppController : IDisposable
     }
 
     private static void ShowAbout() => MessageBox.Show(
-        "SnipArc 0.1 alpha\n\nA fast, local-only screenshot and annotation tool. No uploads, accounts, telemetry, or hidden screenshot history.",
+        "SnipArc 0.2 alpha\n\nScreenshot capture, scrolling capture, animated GIF recording, local OCR, barcode recognition, and private annotation. No telemetry or hidden screenshot history.",
         "About SnipArc", MessageBoxButton.OK, MessageBoxImage.Information);
 
     private void Notify(string title, string message)
@@ -360,10 +455,23 @@ internal sealed class AppController : IDisposable
         return path;
     }
 
+    private static AppLocalSettings ApplyPolicy(AppLocalSettings settings, AppPolicy policy) =>
+        settings with
+        {
+            CaptureFolder = policy.ManagedCaptureFolder ?? settings.CaptureFolder,
+            StartWithWindows = policy.ForceStartWithWindows ?? settings.StartWithWindows,
+            TranslationEndpoint = policy.DisableTranslation ? null : settings.TranslationEndpoint
+        };
+
     private static void Exit() => System.Windows.Application.Current.Shutdown();
 
     private void OnDisplaySettingsChanged(object? sender, EventArgs e) =>
-        _dispatcher.BeginInvoke(() => _overlay?.Close());
+        _dispatcher.BeginInvoke(() =>
+        {
+            _overlay?.Close();
+            _gifRecordingWindow?.Close();
+            _scrollingCaptureWindow?.Close();
+        });
 
     public void Dispose()
     {
@@ -371,6 +479,8 @@ internal sealed class AppController : IDisposable
         _disposed = true;
         SystemEvents.DisplaySettingsChanged -= OnDisplaySettingsChanged;
         _overlay?.Close();
+        _gifRecordingWindow?.Close();
+        _scrollingCaptureWindow?.Close();
         _windowsSnippingShortcut.Dispose();
         _hotkey.Dispose();
         _trayIcon.Visible = false;

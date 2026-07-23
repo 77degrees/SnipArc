@@ -193,6 +193,15 @@
           <Button Style="{StaticResource OverlayButton}" Click="SaveAs_Click" ToolTip="Save as (Ctrl+Shift+S)" AutomationProperties.Name="Save as">
             <Viewbox Width="18" Height="18"><Path Data="M10,3 L10,13 M6,9 L10,13 L14,9 M4,16 L16,16" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" Fill="Transparent" /></Viewbox>
           </Button>
+          <Button Style="{StaticResource OverlayButton}" Click="Analyze_Click" ToolTip="Extract text and barcodes" AutomationProperties.Name="Extract text and barcodes">
+            <Viewbox Width="18" Height="18"><Path Data="M4,4 L4,8 M4,4 L8,4 M16,4 L12,4 M16,4 L16,8 M4,16 L4,12 M4,16 L8,16 M16,16 L12,16 M16,16 L16,12 M7,8 L13,8 M10,8 L10,14 M7.5,14 L12.5,14" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" /></Viewbox>
+          </Button>
+          <Button x:Name="RecordGifButton" Style="{StaticResource OverlayButton}" Click="RecordGif_Click" ToolTip="Record this live area as an animated GIF (15 seconds maximum)" AutomationProperties.Name="Record selected area as animated GIF">
+            <Viewbox Width="18" Height="18"><Ellipse Width="13" Height="13" Fill="#FF4D4F" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.2" /></Viewbox>
+          </Button>
+          <Button x:Name="ScrollingCaptureButton" Style="{StaticResource OverlayButton}" Click="ScrollingCapture_Click" ToolTip="Build a scrolling capture from this live area" AutomationProperties.Name="Build a scrolling capture from selected area">
+            <Viewbox Width="18" Height="18"><Path Data="M10,2 L10,18 M6,6 L10,2 L14,6 M6,14 L10,18 L14,14 M3,9 L17,9 M3,11 L17,11" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" /></Viewbox>
+          </Button>
           <Button Style="{StaticResource OverlayButton}" Click="Cancel_Click" ToolTip="Cancel (Esc)" AutomationProperties.Name="Cancel">
             <Viewbox Width="18" Height="18"><Path Data="M4,4 L16,16 M16,4 L4,16" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.7" StrokeStartLineCap="Round" /></Viewbox>
           </Button>

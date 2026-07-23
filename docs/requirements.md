@@ -15,7 +15,7 @@ SnipArc is a lightweight Windows utility for capturing a screen region, annotati
 3. **Explicit sharing** - no screenshot leaves the computer without a direct upload action.
 4. **Predictable output** - preview, clipboard, saved file, and uploaded image use the same compositor.
 5. **Windows-native behavior** - tray lifecycle, hotkeys, clipboard, DPI, installer, and uninstall follow Windows conventions.
-6. **Focused scope** - core screenshot quality takes priority over recording, OCR, accounts, and automation.
+6. **Capability isolation** - recording, recognition, browser, enterprise, and future cloud features must not weaken the fast local capture path.
 
 ## 3. Target users
 
@@ -29,9 +29,8 @@ A technical or business user who may capture sensitive information and needs a r
 
 ### Not a primary target for 1.0
 
-- Video creators needing screen recording.
+- Video creators needing long-form, high-frame-rate, or audio recording.
 - Designers needing layered image editing.
-- Enterprises requiring MSI/GPO deployment on day one.
 - Cross-platform users.
 
 ## 4. Primary workflows
@@ -167,6 +166,24 @@ Priority definitions:
 | FR-063 | P0 | Uninstall cleanly | No process, binary, shortcut, Programs & Features entry, or startup value remains |
 | FR-064 | P0 | Support silent install/uninstall switches | Documented commands work in a clean Windows VM |
 
+### Extended capture and recognition
+
+| ID | Priority | Requirement | Acceptance criterion |
+|---|---:|---|---|
+| FR-070 | P1 | Build a scrolling capture from repeated views of one selected viewport | User captures pages manually; matching vertical overlap is removed; output is a decodable PNG |
+| FR-071 | P1 | Record a selected area as an animated GIF | Output contains multiple timed frames, loops, excludes the recording controls, and stops at the documented duration and dimension limits |
+| FR-072 | P1 | Extract English text locally | OCR runs with no network access and makes editable/copyable text available without retaining image pixels |
+| FR-073 | P1 | Recognize common 1D/2D barcodes locally | QR, Data Matrix, Aztec, PDF417, UPC/EAN, Code 39/93/128, ITF, Codabar, MSI, and RSS formats are attempted locally |
+| FR-074 | P1 | Translate extracted text through an optional provider | No request occurs until Translate is pressed; endpoint validation requires HTTPS except loopback; image pixels are never submitted |
+
+### Browser and managed distribution
+
+| ID | Priority | Requirement | Acceptance criterion |
+|---|---:|---|---|
+| FR-080 | P1 | Provide a Chromium browser extension | Edge/Chrome extension captures the visible tab, crops, copies, and downloads locally with no server dependency |
+| FR-081 | P1 | Provide a per-machine enterprise MSI | WiX build produces an x64 MSI supporting quiet install/uninstall and major upgrades |
+| FR-082 | P1 | Provide Group Policy settings | ADMX/ADML controls translation, capture folder, and startup; machine policy overrides user policy and JSON preferences |
+
 ## 6. Nonfunctional requirements
 
 | ID | Category | Requirement |
@@ -176,7 +193,7 @@ Priority definitions:
 | NFR-003 | Performance | Idle working set target <= 100 MB on the reference machine |
 | NFR-004 | Performance | Normal annotation preview responds within one 60 Hz frame under the reference workload |
 | NFR-005 | Reliability | Net GDI/User handle growth is zero across the final 20 captures of a 100-capture soak test |
-| NFR-006 | Privacy | No outbound request occurs during capture, edit, copy, or save |
+| NFR-006 | Privacy | No outbound request occurs during capture, edit, recognition, copy, save, scrolling capture, or recording; translation and future upload/update actions are separately explicit |
 | NFR-007 | Privacy | No screenshot pixels are written to disk unless the user saves, enables thumbnail history, or uploads |
 | NFR-008 | Security | Credentials and deletion tokens are protected by Credential Manager or DPAPI and excluded from logs |
 | NFR-009 | Accessibility | Settings supports keyboard navigation, visible focus, Narrator naming, high contrast, and 200% text scaling |
@@ -184,16 +201,18 @@ Priority definitions:
 | NFR-011 | Offline | Capture, annotation, clipboard, settings, and local saving remain usable with no network |
 | NFR-012 | Maintainability | Capture, compositor, and upload providers are behind interfaces testable without production services |
 
-## 7. Deferred scope
+## 7. Expansion status
 
-- Scrolling capture.
-- Video or animated GIF recording.
-- OCR, translation, and barcode recognition.
-- Browser extensions.
-- Cloud accounts, galleries, comments, and social login.
-- macOS and Linux clients.
-- Enterprise MSI/GPO packaging.
-- Silent background installation of updates.
+| Capability | Status in 0.2 alpha | Remaining release dependency |
+|---|---|---|
+| Scrolling capture | Implemented as a user-stepped, overlap-stitched PNG workflow | Hardware/application matrix and improved handling of dynamic or repeating content |
+| Animated recording | Implemented for looping GIF, 8 FPS, 15-second maximum, no audio | Performance and visual validation across the supported display matrix |
+| OCR, translation, and barcode recognition | Implemented; OCR/barcodes are local and translation is provider-configured | Additional OCR language packs and provider compatibility testing |
+| Browser extension | Functional Manifest V3 Edge/Chrome source package | Store accounts, review, final extension IDs, and signed store publication |
+| Enterprise MSI/GPO | Buildable WiX 5 MSI and functional registry-backed ADMX policies | Authenticode certificate and clean-VM/managed-deployment validation |
+| Cloud accounts, galleries, comments, and social login | Not implemented | Hosting/operator, retention policy, abuse moderation, identity providers, legal documents, and service budget |
+| Native macOS and Linux clients | Not implemented | Separate UI/capture backends, signing/notarization, packaging, and test hardware |
+| Silent background installation of updates | Not enabled | Public immutable release feed plus signed metadata, signed installers, pinned signer identity, and rollback testing |
 
 ## 8. Version 1.0 definition of done
 
