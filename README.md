@@ -20,6 +20,19 @@ installations and settings upgrade in place.
 
 Because this alpha is not code-signed, Windows SmartScreen may show an unknown-publisher warning. Do not distribute it as a trusted public release until a signing identity is configured.
 
+## Code signing policy
+
+[Free code signing provided by SignPath.io, certificate by SignPath
+Foundation](docs/code-signing.md). SignPath approval is pending, so the current
+alpha remains explicitly unsigned.
+
+- Committer and reviewer: [@77degrees](https://github.com/77degrees)
+- Signing approver: [@77degrees](https://github.com/77degrees)
+- Privacy: This program will not transfer any information to other networked
+  systems unless specifically requested by the user or the person installing
+  or operating it. See [Security and privacy](docs/security-and-privacy.md) for
+  the optional translation exception and full data-handling policy.
+
 ## Use it
 
 1. Start **SnipArc** from the Start menu. It stays in the notification area.
@@ -116,7 +129,7 @@ Outputs:
 - [Product requirements](docs/requirements.md)
 - [Architecture](docs/architecture.md)
 - [Security and privacy](docs/security-and-privacy.md)
-- [Code signing](docs/code-signing.md)
+- [Code signing policy](docs/code-signing.md)
 - [Testing strategy](docs/testing.md)
 - [Decision log](docs/decisions.md)
 - [Brand and naming](docs/branding.md)
