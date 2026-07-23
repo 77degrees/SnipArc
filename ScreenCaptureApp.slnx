@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/ScreenCaptureApp.App/ScreenCaptureApp.App.csproj" />
+    <Project Path="src/ScreenCaptureApp.Core/ScreenCaptureApp.Core.csproj" />
+    <Project Path="src/ScreenCaptureApp.Windows/ScreenCaptureApp.Windows.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ScreenCaptureApp.Core.Tests/ScreenCaptureApp.Core.Tests.csproj" />
+    <Project Path="tests/ScreenCaptureApp.App.Tests/ScreenCaptureApp.App.Tests.csproj" />
+    <Project Path="tests/ScreenCaptureApp.Windows.Tests/ScreenCaptureApp.Windows.Tests.csproj" />
+  </Folder>
+</Solution>

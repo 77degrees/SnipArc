@@ -1,0 +1,14 @@
+<Window x:Class="ScreenCaptureApp.App.TextInputWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Add text" Width="390" Height="160" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ShowInTaskbar="False">
+  <Grid Margin="18">
+    <Grid.RowDefinitions><RowDefinition /><RowDefinition Height="Auto" /></Grid.RowDefinitions>
+    <TextBox x:Name="Input" MinHeight="48" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto"
+             AutomationProperties.Name="Annotation text" />
+    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+      <Button Content="Cancel" IsCancel="True" />
+      <Button Content="Add text" IsDefault="True" Click="Add_Click" Background="{StaticResource AccentBrush}" Foreground="White" />
+    </StackPanel>
+  </Grid>
+</Window>
