@@ -1,0 +1,29 @@
+<Window x:Class="ScreenCaptureApp.App.ScrollingCaptureWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Scrolling capture — SnipArc"
+        Width="520" Height="220" MinWidth="460" MinHeight="200"
+        Topmost="True" WindowStartupLocation="CenterScreen">
+  <Grid Margin="22">
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+    <StackPanel>
+      <TextBlock Text="Scrolling capture" FontSize="23" FontWeight="SemiBold" />
+      <TextBlock Margin="0,7,0,0" TextWrapping="Wrap"
+                 Text="Capture the first page, scroll the selected content while this window stays open, then capture each next page. SnipArc removes matching overlap when you finish." />
+    </StackPanel>
+    <TextBlock x:Name="StatusText" Grid.Row="1" Margin="0,16,0,0"
+               Text="No pages captured yet." Foreground="#686870" />
+    <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+      <Button x:Name="CaptureButton" Content="Capture page" Click="Capture_Click"
+              AutomationProperties.Name="Capture current scrolling page" />
+      <Button x:Name="FinishButton" Content="Finish and save" Click="Finish_Click" IsEnabled="False"
+              Background="{StaticResource AccentBrush}" Foreground="White"
+              AutomationProperties.Name="Finish and save scrolling capture" />
+      <Button Content="Cancel" IsCancel="True" />
+    </StackPanel>
+  </Grid>
+</Window>

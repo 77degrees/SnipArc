@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<policyDefinitionResources revision="1.0" schemaVersion="1.0">
+  <displayName>SnipArc policies</displayName>
+  <description>Administrative settings for SnipArc.</description>
+  <resources>
+    <stringTable>
+      <string id="SUPPORTED_WIN11">Windows 11 or later</string>
+      <string id="SnipArcCategory">SnipArc</string>
+      <string id="DisableTranslation">Disable network translation</string>
+      <string id="DisableTranslation_Help">Prevents users from configuring or using a translation endpoint. Local OCR and barcode recognition remain available.</string>
+      <string id="CaptureFolder">Set the capture folder</string>
+      <string id="CaptureFolder_Help">Forces quick saves, GIF recordings, and scrolling captures into the specified folder. Environment variables are expanded on each app start.</string>
+      <string id="StartWithWindows">Start SnipArc when users sign in</string>
+      <string id="StartWithWindows_Help">Forces the per-user startup registration on or off and locks the corresponding setting.</string>
+    </stringTable>
+    <presentationTable>
+      <presentation id="CaptureFolder">
+        <textBox refId="CaptureFolderPath">
+          <label>Capture folder:</label>
+        </textBox>
+      </presentation>
+    </presentationTable>
+  </resources>
+</policyDefinitionResources>

@@ -1,6 +1,7 @@
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using ScreenCaptureApp.Windows.Policies;
 using ComboBox = System.Windows.Controls.ComboBox;
 using MessageBox = System.Windows.MessageBox;
 using WinForms = System.Windows.Forms;
@@ -11,7 +12,7 @@ public partial class SettingsWindow : Window
 {
     private readonly AppLocalSettings _original;
 
-    internal SettingsWindow(AppLocalSettings settings)
+    internal SettingsWindow(AppLocalSettings settings, AppPolicy? policy = null)
     {
         InitializeComponent();
         _original = settings;
@@ -23,6 +24,26 @@ public partial class SettingsWindow : Window
         CursorBox.IsChecked = settings.IncludeCursor;
         NotificationsBox.IsChecked = settings.ShowNotifications;
         OverrideSnippingBox.IsChecked = settings.OverrideWindowsSnippingShortcut;
+        TranslationEndpointBox.Text = settings.TranslationEndpoint ?? string.Empty;
+        SelectByTag(TranslationLanguageBox, settings.TranslationTargetLanguage);
+
+        if (policy?.ManagedCaptureFolder is not null)
+        {
+            FolderBox.IsReadOnly = true;
+            FolderBox.ToolTip = "Managed by your organization";
+            BrowseButton.IsEnabled = false;
+        }
+        if (policy?.ForceStartWithWindows is not null)
+        {
+            StartupBox.IsEnabled = false;
+            StartupBox.ToolTip = "Managed by your organization";
+        }
+        if (policy?.DisableTranslation == true)
+        {
+            TranslationEndpointBox.IsEnabled = false;
+            TranslationLanguageBox.IsEnabled = false;
+            TranslationEndpointBox.ToolTip = "Translation is disabled by your organization";
+        }
     }
 
     internal AppLocalSettings Settings { get; private set; } = new();
@@ -54,6 +75,21 @@ public partial class SettingsWindow : Window
             return;
         }
 
+        string? translationEndpoint = string.IsNullOrWhiteSpace(TranslationEndpointBox.Text)
+            ? null
+            : TranslationEndpointBox.Text.Trim();
+        if (translationEndpoint is not null &&
+            (!Uri.TryCreate(translationEndpoint, UriKind.Absolute, out Uri? endpoint) ||
+             (endpoint.Scheme != Uri.UriSchemeHttps &&
+              !(endpoint.Scheme == Uri.UriSchemeHttp && endpoint.IsLoopback))))
+        {
+            MessageBox.Show(this,
+                "Use an HTTPS translation endpoint. HTTP is accepted only for a service running on this computer.",
+                "Invalid translation endpoint", MessageBoxButton.OK, MessageBoxImage.Warning);
+            TranslationEndpointBox.Focus();
+            return;
+        }
+
         Settings = _original with
         {
             CaptureFolder = Path.GetFullPath(folder),
@@ -63,7 +99,9 @@ public partial class SettingsWindow : Window
             StartWithWindows = StartupBox.IsChecked == true,
             IncludeCursor = CursorBox.IsChecked == true,
             ShowNotifications = NotificationsBox.IsChecked == true,
-            OverrideWindowsSnippingShortcut = OverrideSnippingBox.IsChecked == true
+            OverrideWindowsSnippingShortcut = OverrideSnippingBox.IsChecked == true,
+            TranslationEndpoint = translationEndpoint,
+            TranslationTargetLanguage = SelectedTag(TranslationLanguageBox, "en")
         };
         DialogResult = true;
     }

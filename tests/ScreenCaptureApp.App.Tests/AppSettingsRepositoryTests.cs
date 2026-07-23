@@ -19,7 +19,9 @@ public sealed class AppSettingsRepositoryTests : IDisposable
             IncludeCursor = true,
             OverrideWindowsSnippingShortcut = true,
             LastOutputFolder = @"C:\Captures\Recent",
-            Hotkey = "CtrlShiftS"
+            Hotkey = "CtrlShiftS",
+            TranslationEndpoint = "https://translate.example.com/translate",
+            TranslationTargetLanguage = "es"
         };
 
         await new AppSettingsRepository(_root).SaveAsync(expected);

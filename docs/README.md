@@ -2,7 +2,7 @@
 
 This directory separates product, technical, security, and verification concerns. The implementation blueprint remains self-contained so an implementation session can execute a step without reconstructing prior context.
 
-Implementation status: the local-only `0.1.0-alpha` is working. Documents describe the longer-term 1.0 target unless a section is explicitly labeled as current-alpha behavior.
+Implementation status: `0.2.0-alpha` is working with local screenshot capture, scrolling composition, GIF recording, recognition, a source-loadable browser extension, and buildable enterprise packaging. Documents describe the longer-term 1.0 target unless a section is explicitly labeled as current-alpha behavior.
 
 ## Document map
 
@@ -15,6 +15,12 @@ Implementation status: the local-only `0.1.0-alpha` is working. Documents descri
 | [Decision log](decisions.md) | Product owner, developer | Accepted decisions, recommended defaults, unresolved choices |
 | [Brand and naming](branding.md) | Product owner, designer, release owner | Public name shortlist, collision research, icon rationale, migration rules |
 | [Implementation blueprint](../plans/windows-screenshot-tool-blueprint.md) | Implementer | Ordered work, dependencies, verification commands, exit criteria |
+| [Browser extension](../extensions/chromium/README.md) | Developer, tester | Edge/Chrome development installation and browser limitations |
+| [Enterprise deployment](../packaging/enterprise/README.md) | IT administrator, release owner | MSI build, silent deployment, and Group Policy installation |
+| [Contributing](../CONTRIBUTING.md) | Contributor | Development setup, change expectations, and pull request validation |
+| [Security policy](../SECURITY.md) | Reporter, maintainer | Private vulnerability reporting and supported versions |
+| [MIT License](../LICENSE) | User, contributor | Rights and conditions for SnipArc source and distributions |
+| [Code signing](code-signing.md) | User, release owner | Current signature state and the SignPath Foundation integration plan |
 
 ## Authority and change rules
 
