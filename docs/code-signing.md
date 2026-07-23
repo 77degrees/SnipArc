@@ -1,4 +1,4 @@
-# Code signing
+# Code signing policy
 
 ## Current status
 
@@ -13,12 +13,37 @@ Foundation provides qualifying open-source projects with trusted Authenticode
 signatures at no charge and keeps the private signing key in managed signing
 infrastructure.
 
+**Free code signing provided by
+[SignPath.io](https://about.signpath.io/), certificate by
+[SignPath Foundation](https://signpath.org/).**
+
 The resulting Windows publisher identity will be **SignPath Foundation**, not
 `77degrees`. The repository remains the authoritative link between the
 project, reproducible GitHub Actions build, and signed artifact.
 
 Acceptance is controlled by SignPath Foundation and is not guaranteed. Until
 the application is approved, releases remain explicitly unsigned.
+
+## Team roles
+
+- Committer and reviewer: [@77degrees](https://github.com/77degrees)
+- Signing approver: [@77degrees](https://github.com/77degrees)
+
+As the sole maintainer, `77degrees` currently holds all three responsibilities.
+Outside contributions must be reviewed before merge, and every signing request
+requires manual approval.
+
+## Privacy policy
+
+This program will not transfer any information to other networked systems
+unless specifically requested by the user or the person installing or
+operating it.
+
+Capture, annotation, OCR, barcode recognition, copy, save, scrolling capture,
+and GIF recording are local. The optional translation command sends only the
+recognized text to the user-configured HTTPS translation endpoint after the
+user explicitly requests translation. Screenshot pixels are not sent. See
+[Security and Privacy](security-and-privacy.md) for the full policy.
 
 ## Eligibility controls
 
