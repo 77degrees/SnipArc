@@ -2,7 +2,15 @@
 # SnipArc POSTs {q, source, target, format} and reads {translatedText}; that is this API.
 #
 # Unraid: place at /mnt/user/appdata/libretranslate/docker-compose.yml
+#
+#   mkdir -p models && chown -R 1032:65534 models   # REQUIRED - see below
 #   docker compose up -d
+#
+# The image runs as uid 1032 (libretranslate), gid 65534 (nogroup). Docker creates a missing
+# bind-mount source as root, and the container then cannot write its model cache. That failure
+# surfaces confusingly: argostranslate raises PermissionError while the entrypoint is still
+# building arguments, so the visible error is "gunicorn: error: argument -w/--workers: expected
+# one argument" and the container restart-loops. chown the directory before the first start.
 services:
   libretranslate:
     image: libretranslate/libretranslate:latest

@@ -10,8 +10,23 @@ only the text OCR already extracted is sent, and only when you press Translate.
 ## Run it
 
 ```bash
+mkdir -p models && chown -R 1032:65534 models
 docker compose up -d
 ```
+
+The `chown` is required, not optional. The image runs as uid 1032 / gid 65534, but Docker
+creates a missing bind-mount directory as root, so the container cannot write its model cache.
+
+The resulting failure is misleading. `argostranslate` raises `PermissionError` on
+`~/.local/share/argos-translate/packages` while the entrypoint is still assembling arguments,
+so the argument string comes out empty and the visible error is:
+
+```
+gunicorn: error: argument -w/--workers: expected one argument
+```
+
+The container then restart-loops. If you see that, check directory ownership rather than
+the gunicorn invocation.
 
 First boot downloads eight language models (`en, es, fr, de, pt, zh, ja, ko` — the set the
 "Translate to" dropdown offers). Expect several minutes and roughly 2 GB. The `./models`
