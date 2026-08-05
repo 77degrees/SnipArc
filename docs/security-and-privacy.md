@@ -181,7 +181,14 @@ Controls:
 - Translation is disabled until the user configures an endpoint and presses Translate.
 - Accept HTTPS translation endpoints; allow HTTP only for loopback development.
 - Send extracted text only, never the source image.
-- Managed environments can disable translation through policy.
+- Send the optional `api_key` field only when the user configures a key; omit it otherwise.
+- Managed environments can disable translation through policy, which clears both the stored
+  endpoint and the stored API key at runtime.
+- The API key is stored in plain text in the per-user settings JSON. It is a service credential
+  for a translation provider, not an account password, and the settings file already carries the
+  user's other preferences. Prefer a self-hosted endpoint that requires no key.
+- Translation failure messages name the cause (missing key, wrong path, rate limit) and may
+  include the service's own error text. They never include the submitted text.
 
 ### T-11: Browser-extension capture exposure
 

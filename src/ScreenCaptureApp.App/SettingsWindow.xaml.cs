@@ -25,6 +25,7 @@ public partial class SettingsWindow : Window
         NotificationsBox.IsChecked = settings.ShowNotifications;
         OverrideSnippingBox.IsChecked = settings.OverrideWindowsSnippingShortcut;
         TranslationEndpointBox.Text = settings.TranslationEndpoint ?? string.Empty;
+        TranslationApiKeyBox.Password = settings.TranslationApiKey ?? string.Empty;
         SelectByTag(TranslationLanguageBox, settings.TranslationTargetLanguage);
 
         if (policy?.ManagedCaptureFolder is not null)
@@ -42,7 +43,9 @@ public partial class SettingsWindow : Window
         {
             TranslationEndpointBox.IsEnabled = false;
             TranslationLanguageBox.IsEnabled = false;
+            TranslationApiKeyBox.IsEnabled = false;
             TranslationEndpointBox.ToolTip = "Translation is disabled by your organization";
+            TranslationApiKeyBox.ToolTip = "Translation is disabled by your organization";
         }
     }
 
@@ -101,6 +104,9 @@ public partial class SettingsWindow : Window
             ShowNotifications = NotificationsBox.IsChecked == true,
             OverrideWindowsSnippingShortcut = OverrideSnippingBox.IsChecked == true,
             TranslationEndpoint = translationEndpoint,
+            TranslationApiKey = string.IsNullOrWhiteSpace(TranslationApiKeyBox.Password)
+                ? null
+                : TranslationApiKeyBox.Password.Trim(),
             TranslationTargetLanguage = SelectedTag(TranslationLanguageBox, "en")
         };
         DialogResult = true;

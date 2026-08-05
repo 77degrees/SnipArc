@@ -332,7 +332,7 @@ The consumer package remains the per-user Inno Setup EXE. Managed environments c
 | `ScrollingCaptureService` | Windows capture plus PNG output | Captures only the fixed viewport chosen by the user; writes only on Finish |
 | `GifRecordingService` | Windows capture plus animated GIF encoding | Streams frames into a temporary encoder file, publishes atomically, and limits recording to 15 seconds and 1280 pixels |
 | `ImageRecognitionService` | Local Tesseract and ZXing adapters | OCR and barcode pixels remain in process; output text is not logged or persisted |
-| `TranslationService` | Optional HTTP boundary | Sends extracted text only after a user action and only to the configured endpoint |
+| `TranslationService` | Optional HTTP boundary | Sends extracted text only after a user action and only to the configured endpoint; attaches `api_key` only when the user configures one |
 | Chromium extension | Browser process, independent of desktop IPC | Stores a pending PNG in extension session storage and supports local crop/copy/download |
 | Enterprise policy provider | Read-only HKLM/HKCU policy boundary | Machine policy wins over user policy; managed values override JSON preferences at runtime |
 

@@ -21,6 +21,7 @@ public sealed class AppSettingsRepositoryTests : IDisposable
             LastOutputFolder = @"C:\Captures\Recent",
             Hotkey = "CtrlShiftS",
             TranslationEndpoint = "https://translate.example.com/translate",
+            TranslationApiKey = "libre-key-abc123",
             TranslationTargetLanguage = "es"
         };
 

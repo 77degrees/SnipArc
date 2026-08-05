@@ -10,17 +10,20 @@ public partial class RecognitionWindow : Window
     private readonly ITranslationService _translationService;
     private readonly Uri? _translationEndpoint;
     private readonly string _targetLanguage;
+    private readonly string? _translationApiKey;
 
     internal RecognitionWindow(
         ImageRecognitionResult result,
         string? translationEndpoint,
         string targetLanguage,
+        string? translationApiKey = null,
         ITranslationService? translationService = null)
     {
         InitializeComponent();
         _result = result;
         _translationService = translationService ?? new TranslationService();
         _targetLanguage = targetLanguage;
+        _translationApiKey = translationApiKey;
         _translationEndpoint = Uri.TryCreate(translationEndpoint, UriKind.Absolute, out Uri? endpoint)
             ? endpoint
             : null;
@@ -54,7 +57,8 @@ public partial class RecognitionWindow : Window
             TranslationBox.Text = await _translationService.TranslateAsync(
                 _result.Text,
                 _translationEndpoint,
-                _targetLanguage);
+                _targetLanguage,
+                _translationApiKey);
         }
         catch (Exception ex)
         {

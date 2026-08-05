@@ -176,7 +176,8 @@ internal sealed class AppController : IDisposable
         RecognitionWindow window = new(
             result,
             _settings.TranslationEndpoint,
-            _settings.TranslationTargetLanguage)
+            _settings.TranslationTargetLanguage,
+            _settings.TranslationApiKey)
         {
             Owner = _overlay
         };
@@ -460,7 +461,8 @@ internal sealed class AppController : IDisposable
         {
             CaptureFolder = policy.ManagedCaptureFolder ?? settings.CaptureFolder,
             StartWithWindows = policy.ForceStartWithWindows ?? settings.StartWithWindows,
-            TranslationEndpoint = policy.DisableTranslation ? null : settings.TranslationEndpoint
+            TranslationEndpoint = policy.DisableTranslation ? null : settings.TranslationEndpoint,
+            TranslationApiKey = policy.DisableTranslation ? null : settings.TranslationApiKey
         };
 
     private static void Exit() => System.Windows.Application.Current.Shutdown();

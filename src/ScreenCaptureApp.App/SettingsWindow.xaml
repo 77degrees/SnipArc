@@ -1,7 +1,7 @@
 <Window x:Class="ScreenCaptureApp.App.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="SnipArc settings" Width="640" Height="650" MinWidth="580" MinHeight="560"
+        Title="SnipArc settings" Width="640" Height="770" MinWidth="580" MinHeight="670"
         WindowStartupLocation="CenterScreen" ShowInTaskbar="True">
   <Grid Margin="24">
     <Grid.RowDefinitions>
@@ -47,10 +47,26 @@
 
     <Grid Grid.Row="5" Margin="0,0,0,16">
       <Grid.ColumnDefinitions><ColumnDefinition Width="150" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" /><RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
       <TextBlock Text="Translation endpoint" VerticalAlignment="Center" />
       <TextBox x:Name="TranslationEndpointBox" Grid.Column="1" MinHeight="32" VerticalContentAlignment="Center"
                AutomationProperties.Name="LibreTranslate endpoint"
-               ToolTip="Optional HTTPS LibreTranslate-compatible API URL, for example https://translate.example.com/translate" />
+               AutomationProperties.HelpText="A LibreTranslate-compatible URL ending in /translate. Must be HTTPS unless it runs on this computer."
+               ToolTip="LibreTranslate-compatible API URL, for example https://translate.example.com/translate" />
+      <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,4,0,0" Foreground="#686870" TextWrapping="Wrap" FontSize="11"
+                 Text="Leave blank to turn translation off. The URL must end in /translate and use HTTPS, unless the service runs on this computer (http://127.0.0.1)." />
+
+      <TextBlock Grid.Row="2" Text="Translation API key" VerticalAlignment="Center" Margin="0,12,0,0" />
+      <PasswordBox x:Name="TranslationApiKeyBox" Grid.Row="2" Grid.Column="1" MinHeight="32" Margin="0,12,0,0"
+                   VerticalContentAlignment="Center"
+                   AutomationProperties.Name="Translation API key"
+                   AutomationProperties.HelpText="Required by hosted LibreTranslate services. Leave blank for a self-hosted instance that does not ask for one." />
+      <TextBlock Grid.Row="3" Grid.Column="1" Margin="0,4,0,0" Foreground="#686870" TextWrapping="Wrap" FontSize="11"
+                 Text="The hosted libretranslate.com service is paid and needs a key. Running your own LibreTranslate server is free and usually needs none. The key is stored in this computer's SnipArc settings file." />
     </Grid>
 
     <Grid Grid.Row="6" Margin="0,0,0,16">

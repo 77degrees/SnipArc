@@ -20,6 +20,7 @@ internal sealed record AppLocalSettings
     public string? LastOutputFolder { get; init; }
     public string Hotkey { get; init; } = "PrintScreen";
     public string? TranslationEndpoint { get; init; }
+    public string? TranslationApiKey { get; init; }
     public string TranslationTargetLanguage { get; init; } = "en";
 }
 

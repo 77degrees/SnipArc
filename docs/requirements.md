@@ -175,6 +175,7 @@ Priority definitions:
 | FR-072 | P1 | Extract English text locally | OCR runs with no network access and makes editable/copyable text available without retaining image pixels |
 | FR-073 | P1 | Recognize common 1D/2D barcodes locally | QR, Data Matrix, Aztec, PDF417, UPC/EAN, Code 39/93/128, ITF, Codabar, MSI, and RSS formats are attempted locally |
 | FR-074 | P1 | Translate extracted text through an optional provider | No request occurs until Translate is pressed; endpoint validation requires HTTPS except loopback; image pixels are never submitted |
+| FR-075 | P2 | Authenticate to translation providers that require it | An optional API key is sent as `api_key` only when configured; a 401 or 403 tells the user a key is needed rather than showing a bare status code |
 
 ### Browser and managed distribution
 

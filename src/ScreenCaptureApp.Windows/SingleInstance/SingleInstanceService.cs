@@ -17,15 +17,13 @@ public sealed class SingleInstanceService : IAsyncDisposable, IDisposable
     private FileStream? _lockFile;
     private bool _disposed;
 
-    public SingleInstanceService(string applicationId)
+    public SingleInstanceService(string applicationId, string? localAppDataRoot = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(applicationId);
         string scope = CreateScope(applicationId);
         _pipeName = scope;
-        _lockFilePath = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-            SanitizeName(applicationId),
-            $"instance.{scope}.lock");
+        string root = localAppDataRoot ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        _lockFilePath = Path.Combine(root, SanitizeName(applicationId), $"instance.{scope}.lock");
     }
 
     public event EventHandler? ActivationRequested;

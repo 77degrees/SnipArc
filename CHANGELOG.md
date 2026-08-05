@@ -8,6 +8,21 @@
 - Selected-area animated GIF recording at 8 FPS for up to 15 seconds.
 - Offline English OCR plus local QR and multi-format barcode recognition.
 - Opt-in translation through a user-configured HTTPS LibreTranslate-compatible endpoint.
+- Optional translation API key, sent as `api_key` only when one is configured, for hosted
+  LibreTranslate services that reject unauthenticated requests.
+- `deploy/libretranslate/docker-compose.yml` for running a self-hosted translation backend.
+
+### Changed
+
+- Translation failures now explain the cause. A 401 or 403 states that the service needs an API
+  key, a 404 points at the missing `/translate` path, and the service's own error text is shown.
+- The settings window states the endpoint and API key rules inline instead of hiding them in a
+  tooltip.
+
+### Fixed
+
+- `SingleInstanceService` no longer writes its lock file to a hard-coded `%LOCALAPPDATA%` path.
+  The root is injectable, so tests stop leaving a directory behind on every run.
 - Manifest V3 Edge/Chrome extension for private visible-tab capture, crop, copy, and download.
 - WiX 5 per-machine x64 MSI and registry-backed Group Policy Administrative Templates.
 - Automated integration tests for OCR/barcode recognition, GIF frame timing, scrolling composition, and output encoding.

@@ -1,0 +1,33 @@
+# LibreTranslate — the translation backend for SnipArc's "Translation endpoint" setting.
+# SnipArc POSTs {q, source, target, format} and reads {translatedText}; that is this API.
+#
+# Unraid: place at /mnt/user/appdata/libretranslate/docker-compose.yml
+#   docker compose up -d
+services:
+  libretranslate:
+    image: libretranslate/libretranslate:latest
+    container_name: libretranslate
+    restart: unless-stopped
+    ports:
+      # Bound to the LAN so a reverse proxy can front it with TLS.
+      # SnipArc rejects plain-HTTP non-loopback endpoints, so do not point the
+      # app straight at this port - terminate TLS in front of it, or tunnel.
+      - "5000:5000"
+    environment:
+      # Only the eight languages SnipArc's "Translate to" dropdown offers.
+      # Omitting this downloads every model (several GB).
+      LT_LOAD_ONLY: "en,es,fr,de,pt,zh,ja,ko"
+      # SnipArc sends no api_key field, so key auth must stay off.
+      LT_DISABLE_WEB_UI: "false"
+      LT_UPDATE_MODELS: "false"
+    volumes:
+      # Persist downloaded models. Without this every restart re-downloads them.
+      - ./models:/home/libretranslate/.local/share/argos-translate
+    healthcheck:
+      test: ["CMD", "python3", "-c",
+             "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://localhost:5000/languages',timeout=5).status==200 else 1)"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      # First boot downloads ~8 models; give it room before reporting unhealthy.
+      start_period: 15m
