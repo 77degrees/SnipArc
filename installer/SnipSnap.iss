@@ -7,11 +7,17 @@
 #endif
 
 [Setup]
-AppId={{8A52C949-D9EC-4329-A0E1-CFEA23EB9464}
+; New AppId for the SnipSnap rename. The old id belonged to the SnipArc /
+; ScreenCaptureApp product, and reusing it made Inno treat this as an upgrade:
+; UsePreviousAppDir defaults to yes, so DefaultDirName below was ignored and the
+; install landed back in the old Programs\ScreenCaptureApp folder.
+AppId={{FAF3652C-2B22-46D3-A642-8DCE6C16C42D}
 AppName={#AppName}
 AppVersion={#AppVersion}
 AppPublisher={#AppPublisher}
 DefaultDirName={localappdata}\Programs\SnipSnap
+; Belt and braces: never inherit an install directory from a previous product.
+UsePreviousAppDir=no
 DefaultGroupName={#AppName}
 PrivilegesRequired=lowest
 OutputDir=..\artifacts\installer
