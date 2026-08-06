@@ -4,9 +4,10 @@
 
 ### Added
 
-- README screenshots of the capture overlay, selection, annotation, pixelation and opaque
-  redaction, the extract window, the tray menu, and settings. All are captured against a synthetic
-  backdrop, so no real content appears in them. See `assets/screenshots/`.
+- README screenshots of the selection, annotation, pixelation and opaque redaction, the extract
+  window, the tray menu, and settings, plus an animated GIF of a whole capture from shortcut to
+  clipboard. All are recorded against a synthetic backdrop, so no real content appears in them.
+  See `assets/screenshots/`.
 - User-stepped scrolling capture with tested vertical-overlap detection and PNG composition.
 - Selected-area animated GIF recording at 8 FPS for up to 15 seconds.
 - Offline English OCR plus local QR and multi-format barcode recognition.

@@ -14,8 +14,8 @@ else.
 > **Status: `0.2.0-alpha`, Windows 11 x64.** Working and in daily use, but the
 > installer is unsigned. See [limitations](#known-limitations).
 
-<p align="center"><img src="assets/screenshots/capture-overlay.png" alt="The SnipArc overlay dimming the screen, with one window highlighted and labelled &quot;Click to capture window&quot;" width="820"></p>
-<p align="center"><sub>Press the shortcut and the screen dims. Hover any window to take it whole, or drag for a custom area.</sub></p>
+<p align="center"><img src="assets/screenshots/capture-flow.gif" alt="Animation of a SnipArc capture: the screen dims and a window is highlighted, an area is dragged out, an arrow and a box are drawn on it, and the result is copied" width="820"></p>
+<p align="center"><sub>Shortcut, drag, mark up, copy. The screen dims, any window can be taken whole, and the capture lands on the clipboard.</sub></p>
 
 ## Install
 
