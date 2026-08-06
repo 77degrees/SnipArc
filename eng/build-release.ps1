@@ -12,8 +12,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $repositoryRoot = Split-Path -Parent $PSScriptRoot
-$solutionPath = Join-Path $repositoryRoot 'ScreenCaptureApp.slnx'
-$applicationProject = Join-Path $repositoryRoot 'src\ScreenCaptureApp.App\ScreenCaptureApp.App.csproj'
+$solutionPath = Join-Path $repositoryRoot 'SnipSnap.slnx'
+$applicationProject = Join-Path $repositoryRoot 'src\SnipSnap.App\SnipSnap.App.csproj'
 $iconGenerator = Join-Path $repositoryRoot 'eng\generate-icon.ps1'
 $artifactRoot = Join-Path $repositoryRoot 'artifacts'
 $publishDirectory = Join-Path $artifactRoot 'app\win-x64'
@@ -32,12 +32,12 @@ try {
         --no-restore
 
     if ($BuildEnterpriseMsi) {
-        $enterpriseProject = Join-Path $repositoryRoot 'packaging\enterprise\SnipArc.Msi.wixproj'
+        $enterpriseProject = Join-Path $repositoryRoot 'packaging\enterprise\SnipSnap.Msi.wixproj'
         dotnet build $enterpriseProject `
             --configuration $Configuration `
             "-p:PublishDir=$publishDirectory"
         $enterpriseOutput = Join-Path $repositoryRoot 'packaging\enterprise\bin\x64'
-        $enterpriseMsi = Get-ChildItem -LiteralPath $enterpriseOutput -Recurse -Filter 'SnipArc-Enterprise-x64.msi' |
+        $enterpriseMsi = Get-ChildItem -LiteralPath $enterpriseOutput -Recurse -Filter 'SnipSnap-Enterprise-x64.msi' |
             Sort-Object LastWriteTime -Descending |
             Select-Object -First 1
         if (-not $enterpriseMsi) {
@@ -52,7 +52,7 @@ try {
     if ($BuildBrowserExtension) {
         $extensionSource = Join-Path $repositoryRoot 'extensions\chromium'
         $extensionArtifactDirectory = Join-Path $artifactRoot 'extension'
-        $extensionArtifact = Join-Path $extensionArtifactDirectory 'SnipArc-Browser-Capture-0.2.0.zip'
+        $extensionArtifact = Join-Path $extensionArtifactDirectory 'SnipSnap-Browser-Capture-0.2.0.zip'
         if (-not (Test-Path -LiteralPath (Join-Path $extensionSource 'manifest.json'))) {
             throw "Browser extension manifest not found: $extensionSource"
         }
@@ -68,7 +68,7 @@ try {
     }
 
     if ($BuildInstaller) {
-        $installerScript = Join-Path $repositoryRoot 'installer\ScreenCaptureApp.iss'
+        $installerScript = Join-Path $repositoryRoot 'installer\SnipSnap.iss'
         if (-not (Test-Path -LiteralPath $installerScript)) {
             throw "Installer script not found: $installerScript"
         }
@@ -91,9 +91,9 @@ try {
 
     if ($BuildInstaller -or $BuildEnterpriseMsi -or $BuildBrowserExtension) {
         $releaseArtifacts = @(
-            @{ RelativePath = 'installer/SnipArc-Setup-x64.exe'; FullPath = (Join-Path $artifactRoot 'installer\SnipArc-Setup-x64.exe') },
-            @{ RelativePath = 'enterprise/SnipArc-Enterprise-x64.msi'; FullPath = (Join-Path $artifactRoot 'enterprise\SnipArc-Enterprise-x64.msi') },
-            @{ RelativePath = 'extension/SnipArc-Browser-Capture-0.2.0.zip'; FullPath = (Join-Path $artifactRoot 'extension\SnipArc-Browser-Capture-0.2.0.zip') }
+            @{ RelativePath = 'installer/SnipSnap-Setup-x64.exe'; FullPath = (Join-Path $artifactRoot 'installer\SnipSnap-Setup-x64.exe') },
+            @{ RelativePath = 'enterprise/SnipSnap-Enterprise-x64.msi'; FullPath = (Join-Path $artifactRoot 'enterprise\SnipSnap-Enterprise-x64.msi') },
+            @{ RelativePath = 'extension/SnipSnap-Browser-Capture-0.2.0.zip'; FullPath = (Join-Path $artifactRoot 'extension\SnipSnap-Browser-Capture-0.2.0.zip') }
         )
         $checksumLines = $releaseArtifacts |
             Where-Object { Test-Path -LiteralPath $_.FullPath } |

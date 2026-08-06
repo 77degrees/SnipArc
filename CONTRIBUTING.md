@@ -1,6 +1,6 @@
-# Contributing to SnipArc
+# Contributing to SnipSnap
 
-Thank you for helping improve SnipArc. Bug reports, accessibility feedback,
+Thank you for helping improve SnipSnap. Bug reports, accessibility feedback,
 documentation fixes, tests, and focused feature contributions are welcome.
 
 ## Before opening a change
@@ -12,13 +12,13 @@ documentation fixes, tests, and focused feature contributions are welcome.
 
 ## Development setup
 
-SnipArc currently requires Windows 11 x64 and the .NET SDK selected by
+SnipSnap currently requires Windows 11 x64 and the .NET SDK selected by
 `global.json`.
 
 ```powershell
-dotnet restore ScreenCaptureApp.slnx
-dotnet build ScreenCaptureApp.slnx -c Release --no-restore
-dotnet test ScreenCaptureApp.slnx -c Release --no-build --no-restore
+dotnet restore SnipSnap.slnx
+dotnet build SnipSnap.slnx -c Release --no-restore
+dotnet test SnipSnap.slnx -c Release --no-build --no-restore
 ```
 
 Inno Setup 6 is required only for the per-user Setup EXE. The enterprise MSI

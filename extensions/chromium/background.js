@@ -14,6 +14,6 @@ chrome.action.onClicked.addListener(async (tab) => {
     });
     await chrome.tabs.create({ url: chrome.runtime.getURL("editor.html") });
   } catch (error) {
-    console.error("SnipArc could not capture the visible tab.", error);
+    console.error("SnipSnap could not capture the visible tab.", error);
   }
 });

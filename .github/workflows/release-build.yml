@@ -46,20 +46,20 @@ jobs:
             "$signingInput/installer", `
             "$signingInput/enterprise", `
             "$signingInput/extension" | Out-Null
-          Copy-Item "artifacts/installer/SnipArc-Setup-x64.exe" "$signingInput/installer/"
-          Copy-Item "artifacts/enterprise/SnipArc-Enterprise-x64.msi" "$signingInput/enterprise/"
-          Copy-Item "artifacts/extension/SnipArc-Browser-Capture-0.2.0.zip" "$signingInput/extension/"
+          Copy-Item "artifacts/installer/SnipSnap-Setup-x64.exe" "$signingInput/installer/"
+          Copy-Item "artifacts/enterprise/SnipSnap-Enterprise-x64.msi" "$signingInput/enterprise/"
+          Copy-Item "artifacts/extension/SnipSnap-Browser-Capture-0.2.0.zip" "$signingInput/extension/"
           Copy-Item "artifacts/SHA256SUMS.txt" "$signingInput/"
           Compress-Archive `
             -Path "$signingInput/*" `
-            -DestinationPath "artifacts/SnipArc-unsigned-release.zip" `
+            -DestinationPath "artifacts/SnipSnap-unsigned-release.zip" `
             -CompressionLevel Optimal
 
       - name: Upload unsigned signing input
         id: upload-unsigned-release
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          path: artifacts/SnipArc-unsigned-release.zip
+          path: artifacts/SnipSnap-unsigned-release.zip
           archive: false
           if-no-files-found: error
           retention-days: 30

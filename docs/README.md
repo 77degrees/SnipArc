@@ -15,12 +15,12 @@ Open `index.html` to browse these documents in a browser. Double-click `serve.cm
 | [Security and privacy](security-and-privacy.md) | Developer, security reviewer | Data classification, trust boundaries, threats, required controls, logging restrictions |
 | [Testing strategy](testing.md) | Developer, tester, release owner | Test layers, hardware matrix, performance measurement, release evidence |
 | [Code signing](code-signing.md) | User, release owner | Current signature state and the SignPath Foundation integration plan |
-| [Translation backend](../deploy/libretranslate/README.md) | User, IT administrator | Self-hosting the optional LibreTranslate service SnipArc talks to |
+| [Translation backend](../deploy/libretranslate/README.md) | User, IT administrator | Self-hosting the optional LibreTranslate service SnipSnap talks to |
 | [Browser extension](../extensions/chromium/README.md) | Developer, tester | Edge/Chrome development installation and browser limitations |
 | [Enterprise deployment](../packaging/enterprise/README.md) | IT administrator, release owner | MSI build, silent deployment, and Group Policy installation |
 | [Contributing](../CONTRIBUTING.md) | Contributor | Development setup, change expectations, and pull request validation |
 | [Security policy](../SECURITY.md) | Reporter, maintainer | Private vulnerability reporting and supported versions |
-| [MIT License](../LICENSE) | User, contributor | Rights and conditions for SnipArc source and distributions |
+| [MIT License](../LICENSE) | User, contributor | Rights and conditions for SnipSnap source and distributions |
 
 ## Authority and change rules
 

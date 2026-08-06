@@ -1,5 +1,5 @@
-# LibreTranslate — the translation backend for SnipArc's "Translation endpoint" setting.
-# SnipArc POSTs {q, source, target, format} and reads {translatedText}; that is this API.
+# LibreTranslate — the translation backend for SnipSnap's "Translation endpoint" setting.
+# SnipSnap POSTs {q, source, target, format} and reads {translatedText}; that is this API.
 #
 # Unraid: place at /mnt/user/appdata/libretranslate/docker-compose.yml
 #
@@ -18,14 +18,14 @@ services:
     restart: unless-stopped
     ports:
       # Bound to the LAN so a reverse proxy can front it with TLS.
-      # SnipArc rejects plain-HTTP non-loopback endpoints, so do not point the
+      # SnipSnap rejects plain-HTTP non-loopback endpoints, so do not point the
       # app straight at this port - terminate TLS in front of it, or tunnel.
       - "5000:5000"
     environment:
-      # Only the eight languages SnipArc's "Translate to" dropdown offers.
+      # Only the eight languages SnipSnap's "Translate to" dropdown offers.
       # Omitting this downloads every model (several GB).
       LT_LOAD_ONLY: "en,es,fr,de,pt,zh,ja,ko"
-      # SnipArc sends no api_key field, so key auth must stay off.
+      # SnipSnap sends no api_key field, so key auth must stay off.
       LT_DISABLE_WEB_UI: "false"
       LT_UPDATE_MODELS: "false"
     volumes:

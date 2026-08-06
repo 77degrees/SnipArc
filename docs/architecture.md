@@ -284,7 +284,7 @@ Settings document requirements:
 
 The canonical envelope uses camelCase (`schemaVersion` and `settings`). The loader compares envelope names case-insensitively so PascalCase files written by early alpha builds remain readable. This backward-compatibility rule is regression-tested because rejecting the older casing makes every fresh process appear to reset user preferences.
 
-SnipArc is the public display name. The following internal identifiers remain stable through the alpha upgrade path: `%LocalAppData%\ScreenCaptureApp`, `ScreenCaptureApp.exe`, the `ScreenCaptureApp` HKCU Run value, the single-instance identifier, and the Inno Setup AppId. Changing these identifiers requires an explicit settings/install migration rather than a search-and-replace rename.
+SnipSnap is the public display name. The following internal identifiers remain stable through the alpha upgrade path: `%LocalAppData%\SnipSnap`, `SnipSnap.exe`, the `SnipSnap` HKCU Run value, the single-instance identifier, and the Inno Setup AppId. Changing these identifiers requires an explicit settings/install migration rather than a search-and-replace rename.
 
 Startup preference uses one quoted HKCU Run value owned by the app. The installer removes that known value on uninstall but does not create a competing startup mechanism.
 

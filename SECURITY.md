@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-SnipArc is currently an alpha. Security fixes are applied to the latest code on
+SnipSnap is currently an alpha. Security fixes are applied to the latest code on
 `main` and the newest published alpha release.
 
 | Version | Supported |

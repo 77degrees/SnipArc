@@ -2,7 +2,7 @@
 
 ## Current status
 
-SnipArc's `0.2.0-alpha` artifacts are unsigned. They are published with
+SnipSnap's `0.2.0-alpha` artifacts are unsigned. They are published with
 SHA-256 checksums for testing, but they must not be represented as trusted
 production releases.
 
@@ -48,7 +48,7 @@ user explicitly requests translation. Screenshot pixels are not sent. See
 ## Eligibility controls
 
 - The repository is public.
-- SnipArc source is licensed under the OSI-approved MIT License.
+- SnipSnap source is licensed under the OSI-approved MIT License.
 - Third-party components and their licenses are listed in
   `THIRD_PARTY_NOTICES.md` and `licenses/`.
 - All non-system runtime components use OSI-approved licenses. Animated GIF
@@ -60,7 +60,7 @@ user explicitly requests translation. Screenshot pixels are not sent. See
   signing-input artifact.
 - Release source, workflow, commit, tests, and checksums remain publicly
   inspectable.
-- No proprietary SnipArc source or separate commercial edition exists.
+- No proprietary SnipSnap source or separate commercial edition exists.
 
 ## Planned SignPath integration
 

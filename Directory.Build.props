@@ -11,10 +11,10 @@
     <VersionSuffix>alpha</VersionSuffix>
     <Authors>77degrees</Authors>
     <Company>77degrees</Company>
-    <Product>SnipArc</Product>
+    <Product>SnipSnap</Product>
     <Copyright>Copyright © 2026 77degrees</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/77degrees/SnipArc</RepositoryUrl>
+    <RepositoryUrl>https://github.com/77degrees/SnipSnap</RepositoryUrl>
   </PropertyGroup>
 </Project>

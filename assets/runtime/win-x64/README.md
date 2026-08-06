@@ -18,7 +18,7 @@ directory. Their SHA-256 hashes are:
 | `vcruntime140_1.dll` | `A7146C08F89FE5B04541AB507CDB59FF7B44534D4BA3C668A426C6450A03434E` |
 
 They are copied beside
-`ScreenCaptureApp.exe` during build and publish so a clean Windows 11 machine
+`SnipSnap.exe` during build and publish so a clean Windows 11 machine
 does not need a separately installed Visual C++ Redistributable.
 
 These files are Microsoft Visual Studio distributable code. When updating them,

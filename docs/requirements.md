@@ -2,11 +2,11 @@
 
 Status: Proposed for version 1.0
 Last reviewed: 2026-07-22
-Product name: SnipArc
+Product name: SnipSnap
 
 ## 1. Purpose
 
-SnipArc is a lightweight Windows utility for capturing a screen region, annotating it in place, and immediately copying, saving, or explicitly uploading it. It prioritizes a fast workflow, privacy, mixed-DPI reliability, predictable output, and secure redaction.
+SnipSnap is a lightweight Windows utility for capturing a screen region, annotating it in place, and immediately copying, saving, or explicitly uploading it. It prioritizes a fast workflow, privacy, mixed-DPI reliability, predictable output, and secure redaction.
 
 ## 2. Product principles
 

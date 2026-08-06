@@ -1,6 +1,6 @@
 # Third-party notices
 
-SnipArc 0.2 includes the following third-party components:
+SnipSnap 0.2 includes the following third-party components:
 
 | Component | Version | Purpose | License |
 |---|---:|---|---|
@@ -16,4 +16,4 @@ Corresponding license texts are distributed in the `licenses` directory. Source 
 - <https://github.com/micjahn/ZXing.Net>
 - <https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist>
 
-SnipArc does not claim ownership of these components. Their authors and contributors retain their respective copyrights.
+SnipSnap does not claim ownership of these components. Their authors and contributors retain their respective copyrights.

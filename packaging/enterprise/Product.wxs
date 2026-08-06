@@ -1,33 +1,33 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
   <Package
-      Name="SnipArc"
+      Name="SnipSnap"
       Manufacturer="77degrees"
       Version="0.2.0.0"
       UpgradeCode="E7A3A30F-2912-4EC2-B74D-788A485EA6B1"
       Scope="perMachine"
       InstallerVersion="500">
-    <SummaryInformation Description="SnipArc enterprise deployment package" />
-    <MajorUpgrade DowngradeErrorMessage="A newer version of SnipArc is already installed." />
+    <SummaryInformation Description="SnipSnap enterprise deployment package" />
+    <MajorUpgrade DowngradeErrorMessage="A newer version of SnipSnap is already installed." />
     <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
 
     <StandardDirectory Id="ProgramFiles64Folder">
-      <Directory Id="INSTALLFOLDER" Name="SnipArc" />
+      <Directory Id="INSTALLFOLDER" Name="SnipSnap" />
     </StandardDirectory>
     <StandardDirectory Id="ProgramMenuFolder">
-      <Directory Id="ApplicationProgramsFolder" Name="SnipArc" />
+      <Directory Id="ApplicationProgramsFolder" Name="SnipSnap" />
     </StandardDirectory>
 
     <Files Include="$(var.PublishDir)\**" Directory="INSTALLFOLDER">
-      <Exclude Files="$(var.PublishDir)\ScreenCaptureApp.exe" />
+      <Exclude Files="$(var.PublishDir)\SnipSnap.exe" />
     </Files>
 
-    <Component Id="SnipArcExecutableComponent" Directory="INSTALLFOLDER" Bitness="always64">
-      <File Id="SnipArcExecutable"
-            Source="$(var.PublishDir)\ScreenCaptureApp.exe"
+    <Component Id="SnipSnapExecutableComponent" Directory="INSTALLFOLDER" Bitness="always64">
+      <File Id="SnipSnapExecutable"
+            Source="$(var.PublishDir)\SnipSnap.exe"
             KeyPath="yes">
-        <Shortcut Id="SnipArcStartMenuShortcut"
+        <Shortcut Id="SnipSnapStartMenuShortcut"
                   Directory="ApplicationProgramsFolder"
-                  Name="SnipArc"
+                  Name="SnipSnap"
                   Description="Capture and annotate screenshots"
                   WorkingDirectory="INSTALLFOLDER"
                   Advertise="yes" />

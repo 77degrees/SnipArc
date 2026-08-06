@@ -40,9 +40,17 @@
 ### Changed
 
 - Advanced the working version to `0.2.0-alpha`.
-- Adopted **SnipArc** as the working public product name while retaining legacy internal identifiers for upgrade compatibility.
+- Renamed the product to **SnipSnap**. This replaces the earlier SnipArc name and, unlike that
+  change, goes all the way down: the `ScreenCaptureApp.*` projects, namespaces, assemblies and
+  executable are now `SnipSnap.*`, the per-user install folder is `%LocalAppData%\Programs\SnipSnap`,
+  the settings folder is `%LocalAppData%\SnipSnap`, and the Group Policy key is
+  `Software\Policies\77degrees\SnipSnap`.
+- **Breaking for existing alpha installs.** Because the install and settings folders moved, an
+  existing SnipArc install is not upgraded in place. Uninstall it first, and copy
+  `%LocalAppData%\ScreenCaptureApp\settings.json` to `%LocalAppData%\SnipSnap\` to keep your
+  settings. Any Group Policy targeting the old key must be repointed.
 - Replaced the generic crop-frame icon with an original crop-corners, cyan gesture-arc, and violet-spark mark.
-- Renamed the generated installer to `SnipArc-Setup-x64.exe`.
+- Renamed the generated installer to `SnipSnap-Setup-x64.exe`.
 - Selected the SignPath Foundation open-source program as the no-cost trusted-signing path; releases remain explicitly unsigned until the application is approved.
 - Replaced the custom-license GIF dependency with a first-party streaming
   encoder built on the MIT-licensed WPF imaging stack, leaving only

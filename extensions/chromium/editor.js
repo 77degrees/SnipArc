@@ -65,7 +65,7 @@ function redraw() {
 async function loadCapture() {
   const { pendingCapture } = await chrome.storage.session.get("pendingCapture");
   if (!pendingCapture?.dataUrl) {
-    status.textContent = "No pending capture was found. Click the SnipArc toolbar button and try again.";
+    status.textContent = "No pending capture was found. Click the SnipSnap toolbar button and try again.";
     return;
   }
 
@@ -153,7 +153,7 @@ buttons.download.addEventListener("click", () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `SnipArc ${new Date().toISOString().replaceAll(":", "-").slice(0, 19)}.png`;
+    link.download = `SnipSnap ${new Date().toISOString().replaceAll(":", "-").slice(0, 19)}.png`;
     link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     status.textContent = "Download started.";

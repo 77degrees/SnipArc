@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SnipSnap.App/SnipSnap.App.csproj" />
+    <Project Path="src/SnipSnap.Core/SnipSnap.Core.csproj" />
+    <Project Path="src/SnipSnap.Windows/SnipSnap.Windows.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SnipSnap.Core.Tests/SnipSnap.Core.Tests.csproj" />
+    <Project Path="tests/SnipSnap.App.Tests/SnipSnap.App.Tests.csproj" />
+    <Project Path="tests/SnipSnap.Windows.Tests/SnipSnap.Windows.Tests.csproj" />
+  </Folder>
+</Solution>

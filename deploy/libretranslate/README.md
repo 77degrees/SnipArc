@@ -1,6 +1,6 @@
 # Self-hosted translation backend
 
-SnipArc's **Translation endpoint** setting speaks the LibreTranslate API. It POSTs
+SnipSnap's **Translation endpoint** setting speaks the LibreTranslate API. It POSTs
 `{q, source, target, format}` and reads `{translatedText}` back. Any service with that
 contract works; LibreTranslate is the reference implementation.
 
@@ -38,9 +38,9 @@ Confirm it is up:
 curl http://localhost:5000/languages
 ```
 
-## Point SnipArc at it
+## Point SnipSnap at it
 
-SnipArc requires **HTTPS**, and accepts plain HTTP only for a service on the same computer
+SnipSnap requires **HTTPS**, and accepts plain HTTP only for a service on the same computer
 (`SettingsWindow.xaml.cs`, the endpoint validation). A LAN address over HTTP is rejected.
 That leaves two working options.
 
@@ -71,7 +71,7 @@ the self-signed one into the machine's Trusted Root store.
 The compose file leaves key auth off, so the key box in Settings stays empty.
 
 Hosted services are different. The official `libretranslate.com` is a paid service: it requires
-a key and answers 403 without one. SnipArc reports that as "the endpoint refused the request
+a key and answers 403 without one. SnipSnap reports that as "the endpoint refused the request
 because it needs an API key." Paste the key into **Translation API key** and it is sent as
 `api_key` on each request.
 
@@ -79,10 +79,10 @@ The software itself is free and AGPL-licensed (<https://github.com/LibreTranslat
 only the hosted instance costs money. Running the container above gets you the same API with no
 key and no per-request fee, which is why it is the recommended setup.
 
-The key is stored in plain text in the SnipArc settings JSON under `%LOCALAPPDATA%`. Treat it
+The key is stored in plain text in the SnipSnap settings JSON under `%LOCALAPPDATA%`. Treat it
 as a low-value credential and prefer a self-hosted instance that needs no key at all.
 
 ## Path gotcha
 
 The endpoint is the full path including `/translate`. A base URL alone returns 404, which
-SnipArc reports with that specific hint.
+SnipSnap reports with that specific hint.

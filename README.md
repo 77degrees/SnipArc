@@ -1,11 +1,11 @@
-# SnipArc
+# SnipSnap
 
 Screenshot capture and annotation for Windows that keeps your screenshots on your machine.
 
-[![CI](https://github.com/77degrees/SnipArc/actions/workflows/ci.yml/badge.svg)](https://github.com/77degrees/SnipArc/actions/workflows/ci.yml)
+[![CI](https://github.com/77degrees/SnipSnap/actions/workflows/ci.yml/badge.svg)](https://github.com/77degrees/SnipSnap/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-<p align="center"><img src="assets/app-icon.png" alt="SnipArc icon" width="328"></p>
+<p align="center"><img src="assets/app-icon.png" alt="SnipSnap icon" width="328"></p>
 
 Press a key, drag a box, mark it up, paste it. No account, no upload, no
 gallery, no telemetry. Captures go to your clipboard or your disk and nowhere
@@ -14,24 +14,27 @@ else.
 > **Status: `0.2.0-alpha`, Windows 11 x64.** Working and in daily use, but the
 > installer is unsigned. See [limitations](#known-limitations).
 
-<p align="center"><img src="assets/screenshots/capture-flow.gif" alt="Animation of a SnipArc capture: the screen dims and a window is highlighted, an area is dragged out, an arrow and a box are drawn on it, and the result is copied" width="820"></p>
+<p align="center"><img src="assets/screenshots/capture-flow.gif" alt="Animation of a SnipSnap capture: the screen dims and a window is highlighted, an area is dragged out, an arrow and a box are drawn on it, and the result is copied" width="820"></p>
 <p align="center"><sub>Shortcut, drag, mark up, copy. The screen dims, any window can be taken whole, and the capture lands on the clipboard.</sub></p>
 
 ## Install
 
-Download `SnipArc-Setup-x64.exe` from [releases](https://github.com/77degrees/SnipArc/releases).
+Download `SnipSnap-Setup-x64.exe` from [releases](https://github.com/77degrees/SnipSnap/releases).
 
-It installs per user under `%LocalAppData%\Programs\ScreenCaptureApp` and needs
-no administrator rights. The folder and executable keep the old
-`ScreenCaptureApp` name during the alpha so existing installs and settings
-upgrade in place.
+It installs per user under `%LocalAppData%\Programs\SnipSnap` and needs no
+administrator rights.
+
+If you ran an earlier alpha under the SnipArc name, that install is separate and
+is not upgraded in place. Uninstall it first, then copy
+`%LocalAppData%\ScreenCaptureApp\settings.json` into `%LocalAppData%\SnipSnap\`
+if you want to keep your settings.
 
 The alpha is not code-signed, so SmartScreen will warn about an unknown
 publisher. Don't hand it to anyone as a trusted release until signing is set up.
 
 ## Use it
 
-SnipArc lives in the notification area. Press **Print Screen** to capture.
+SnipSnap lives in the notification area. Press **Print Screen** to capture.
 `Ctrl+Shift+4` and `Ctrl+Shift+S` are alternatives if something else owns that
 key, and a setting can take over `Win+Shift+S` from the Snipping Tool.
 
@@ -53,7 +56,7 @@ the tooltips.
 Right-click the tray icon for the menu, or double-click it to capture without
 touching the keyboard.
 
-<p align="center"><img src="assets/screenshots/tray-menu.png" alt="The SnipArc tray menu listing Capture area, Open capture folder, Settings, About and Exit"></p>
+<p align="center"><img src="assets/screenshots/tray-menu.png" alt="The SnipSnap tray menu listing Capture area, Open capture folder, Settings, About and Exit"></p>
 
 ## What it does
 
@@ -102,7 +105,7 @@ machine. Group Policy can disable it outright.
 
 The translation endpoint ships empty, which is what turns translation off.
 
-<p align="center"><img src="assets/screenshots/settings.png" alt="The SnipArc settings window showing capture folder, quick-save format, capture shortcut, an empty translation endpoint, and checkboxes for startup and notifications"></p>
+<p align="center"><img src="assets/screenshots/settings.png" alt="The SnipSnap settings window showing capture folder, quick-save format, capture shortcut, an empty translation endpoint, and checkboxes for startup and notifications"></p>
 
 Self-host the translation backend so nothing leaves your network:
 [deploy/libretranslate](deploy/libretranslate/README.md). Full data handling is
@@ -114,9 +117,9 @@ Needs Windows 11 x64, .NET SDK `10.0.302` (or whatever `global.json` selects),
 and Inno Setup 6 only if you want the installer.
 
 ```powershell
-dotnet restore ScreenCaptureApp.slnx
-dotnet build ScreenCaptureApp.slnx -c Release --no-restore
-dotnet test ScreenCaptureApp.slnx -c Release --no-build --no-restore
+dotnet restore SnipSnap.slnx
+dotnet build SnipSnap.slnx -c Release --no-restore
+dotnet test SnipSnap.slnx -c Release --no-build --no-restore
 ```
 
 Everything packaged at once:
@@ -127,19 +130,19 @@ Everything packaged at once:
 
 | Output | What it is |
 |---|---|
-| `artifacts/app/win-x64/ScreenCaptureApp.exe` | Unpackaged self-contained app |
-| `artifacts/installer/SnipArc-Setup-x64.exe` | Per-user installer |
-| `artifacts/enterprise/SnipArc-Enterprise-x64.msi` | Per-machine enterprise installer |
-| `artifacts/extension/SnipArc-Browser-Capture-0.2.0.zip` | Source-loadable Edge/Chrome extension |
+| `artifacts/app/win-x64/SnipSnap.exe` | Unpackaged self-contained app |
+| `artifacts/installer/SnipSnap-Setup-x64.exe` | Per-user installer |
+| `artifacts/enterprise/SnipSnap-Enterprise-x64.msi` | Per-machine enterprise installer |
+| `artifacts/extension/SnipSnap-Browser-Capture-0.2.0.zip` | Source-loadable Edge/Chrome extension |
 | `artifacts/SHA256SUMS.txt` | Hashes for the artifacts above |
 
 ## Layout
 
 | Path | Responsibility |
 |---|---|
-| `src/ScreenCaptureApp.Core` | Geometry, selection, annotations, editor commands, history |
-| `src/ScreenCaptureApp.Windows` | Capture, displays, hotkeys, clipboard, settings, startup, single-instance IPC |
-| `src/ScreenCaptureApp.App` | WPF tray app, overlay, toolbars, export workflow, settings UI |
+| `src/SnipSnap.Core` | Geometry, selection, annotations, editor commands, history |
+| `src/SnipSnap.Windows` | Capture, displays, hotkeys, clipboard, settings, startup, single-instance IPC |
+| `src/SnipSnap.App` | WPF tray app, overlay, toolbars, export workflow, settings UI |
 | `tests/` | Core, Windows-infrastructure, and export-safety tests |
 | `installer/` | Inno Setup definition |
 | `packaging/enterprise/` | WiX MSI and Group Policy templates |
