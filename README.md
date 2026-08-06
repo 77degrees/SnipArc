@@ -1,78 +1,89 @@
 # SnipArc
 
-A fast, local-only Windows screenshot and annotation tool built for low-friction capture, precise selection, immediate markup, and private output.
+Screenshot capture and annotation for Windows that keeps your screenshots on your machine.
 
 [![CI](https://github.com/77degrees/SnipArc/actions/workflows/ci.yml/badge.svg)](https://github.com/77degrees/SnipArc/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ![SnipArc icon](assets/app-icon.png)
 
-> Status: working `0.2.0-alpha` for Windows 11 x64. The current installer is unsigned and intended for local testing.
+Press a key, drag a box, mark it up, paste it. No account, no upload, no
+gallery, no telemetry. Captures go to your clipboard or your disk and nowhere
+else.
 
-## Install the alpha
+> **Status: `0.2.0-alpha`, Windows 11 x64.** Working and in daily use, but the
+> installer is unsigned. See [limitations](#known-limitations).
 
-Download `SnipArc-Setup-x64.exe` from the
-[GitHub releases](https://github.com/77degrees/SnipArc/releases).
-It installs per user under `%LocalAppData%\Programs\ScreenCaptureApp` and does
-not require administrator rights. The internal folder and executable names
-intentionally remain `ScreenCaptureApp` during the alpha so existing
-installations and settings upgrade in place.
+## Install
 
-Because this alpha is not code-signed, Windows SmartScreen may show an unknown-publisher warning. Do not distribute it as a trusted public release until a signing identity is configured.
+Download `SnipArc-Setup-x64.exe` from [releases](https://github.com/77degrees/SnipArc/releases).
 
-## Code signing policy
+It installs per user under `%LocalAppData%\Programs\ScreenCaptureApp` and needs
+no administrator rights. The folder and executable keep the old
+`ScreenCaptureApp` name during the alpha so existing installs and settings
+upgrade in place.
 
-[Free code signing provided by SignPath.io, certificate by SignPath
-Foundation](docs/code-signing.md). SignPath approval is pending, so the current
-alpha remains explicitly unsigned.
-
-- Committer and reviewer: [@77degrees](https://github.com/77degrees)
-- Signing approver: [@77degrees](https://github.com/77degrees)
-- Privacy: This program will not transfer any information to other networked
-  systems unless specifically requested by the user or the person installing
-  or operating it. See [Security and privacy](docs/security-and-privacy.md) for
-  the optional translation exception and full data-handling policy.
+The alpha is not code-signed, so SmartScreen will warn about an unknown
+publisher. Don't hand it to anyone as a trusted release until signing is set up.
 
 ## Use it
 
-1. Start **SnipArc** from the Start menu. It stays in the notification area.
-2. Press **Print Screen**. If Windows or another app owns that shortcut, choose `Ctrl+Shift+4` or `Ctrl+Shift+S` in Settings. To use the familiar Snipping Tool shortcut, enable **Use Windows + Shift + S for this app instead of Snipping Tool**.
-3. Hover over a window and click to select the whole window, or drag to select a custom area.
-4. Resize from the eight handles, move the selection, or annotate it.
-5. Copy, save, extract text/barcodes, record the area as an animated GIF, or start a multi-page scrolling capture.
-6. Press **Esc** to cancel.
+SnipArc lives in the notification area. Press **Print Screen** to capture.
+`Ctrl+Shift+4` and `Ctrl+Shift+S` are alternatives if something else owns that
+key, and a setting can take over `Win+Shift+S` from the Snipping Tool.
 
-The selection supports directional resize cursors, one-pixel arrow-key nudging, ten-pixel `Shift` nudging, live pixel dimensions, undo/redo, and keyboard tool shortcuts shown in each tooltip.
+Once the overlay is up:
 
-## Implemented features
+- **Hover a window and click** to grab it whole, or **drag** for a custom area
+- Resize from eight handles, or nudge with arrows (`Shift` for ten pixels)
+- Annotate with pen, line, arrow, rectangle, highlighter, text, pixelation, or
+  opaque redaction
+- Copy, save, extract text and barcodes, record a GIF, or start a scrolling capture
+- **Esc** cancels
 
-- Single-instance notification-area application with global hotkey handling and an optional, reversible Windows + Shift + S override.
-- Physical-pixel GDI capture with optional mouse pointer composition.
-- Active-monitor selection overlay with mixed-DPI-aware positioning.
-- Smart whole-window detection with hover preview and click-to-select.
-- Pen, line, arrow, rectangle, highlighter, text, pixelation, and opaque redaction.
-- Clipboard copy and local PNG, JPG, or BMP saving.
-- Manual multi-page scrolling capture with automatic vertical-overlap removal and PNG output.
-- Animated GIF recording at 8 FPS for up to 15 seconds, scaled to a maximum 1280-pixel dimension.
-- Offline English OCR and multi-format barcode/QR recognition.
-- Optional translation through a user-configured HTTPS LibreTranslate-compatible endpoint.
-- A Manifest V3 Chromium extension for visible-tab capture, crop, copy, and download.
-- Exact-pixel opaque redaction applied last during export.
-- Lossless-only export enforcement when a capture contains opaque redaction.
-- Configurable shortcuts, capture folder, quick-save format, pointer inclusion, notifications, and startup preference.
-- Per-user, self-contained Inno Setup installer and clean uninstall.
-- Buildable per-machine MSI plus ADMX/ADML policies for managed Windows deployment.
-- No accounts, screenshot uploads, analytics, telemetry, or hidden screenshot history.
+Live pixel dimensions, undo/redo, and per-tool keyboard shortcuts are shown in
+the tooltips.
+
+## What it does
+
+**Capture** — physical-pixel GDI capture with mixed-DPI-aware overlay
+positioning, optional pointer inclusion, and whole-window detection with hover
+preview.
+
+**Annotate** — the usual markup tools, plus two that are unusual: pixelation and
+*opaque* redaction. Redaction is applied last during export and the app refuses
+lossy formats when a capture contains it, so you cannot accidentally publish a
+JPEG whose artifacts leak what you covered.
+
+**Extract** — offline English OCR and multi-format barcode/QR recognition, both
+fully local. Optional translation is the one feature that can reach the network,
+and only when you press Translate.
+
+**Beyond a single frame** — user-stepped scrolling capture with automatic
+vertical-overlap removal, and animated GIF recording at 8 FPS for up to 15
+seconds.
+
+**Deployment** — a per-user Inno Setup installer, plus a buildable per-machine
+MSI with ADMX/ADML policies for managed environments.
+
+## Privacy
+
+No accounts, no screenshot uploads, no analytics, no telemetry, no hidden
+capture history.
+
+One exception, off by default: if you configure a translation endpoint, pressing
+Translate sends the **extracted text** — never image pixels — to the URL you
+chose. The endpoint must be HTTPS, or plain HTTP only when it runs on your own
+machine. Group Policy can disable it outright.
+
+Self-host the translation backend so nothing leaves your network:
+[deploy/libretranslate](deploy/libretranslate/README.md). Full data handling is
+in [security and privacy](docs/security-and-privacy.md).
 
 ## Build from source
 
-Requirements:
-
-- Windows 11 x64
-- .NET SDK `10.0.302` or the compatible SDK selected by `global.json`
-- Inno Setup 6 only when building the installer
-
-Build and test:
+Needs Windows 11 x64, .NET SDK `10.0.302` (or whatever `global.json` selects),
+and Inno Setup 6 only if you want the installer.
 
 ```powershell
 dotnet restore ScreenCaptureApp.slnx
@@ -80,69 +91,75 @@ dotnet build ScreenCaptureApp.slnx -c Release --no-restore
 dotnet test ScreenCaptureApp.slnx -c Release --no-build --no-restore
 ```
 
-Publish the self-contained app and all distribution packages:
+Everything packaged at once:
 
 ```powershell
 .\eng\build-release.ps1 -BuildInstaller -BuildEnterpriseMsi -BuildBrowserExtension
 ```
 
-Outputs:
+| Output | What it is |
+|---|---|
+| `artifacts/app/win-x64/ScreenCaptureApp.exe` | Unpackaged self-contained app |
+| `artifacts/installer/SnipArc-Setup-x64.exe` | Per-user installer |
+| `artifacts/enterprise/SnipArc-Enterprise-x64.msi` | Per-machine enterprise installer |
+| `artifacts/extension/SnipArc-Browser-Capture-0.2.0.zip` | Source-loadable Edge/Chrome extension |
+| `artifacts/SHA256SUMS.txt` | Hashes for the artifacts above |
 
-- `artifacts/app/win-x64/ScreenCaptureApp.exe` — unpackaged self-contained app.
-- `artifacts/installer/SnipArc-Setup-x64.exe` — per-user installer.
-- `artifacts/enterprise/SnipArc-Enterprise-x64.msi` — per-machine enterprise installer.
-- `artifacts/extension/SnipArc-Browser-Capture-0.2.0.zip` — source-loadable Edge/Chrome extension.
-- `artifacts/SHA256SUMS.txt` — hashes for the verified local release artifacts.
-
-## Project layout
+## Layout
 
 | Path | Responsibility |
 |---|---|
-| `src/ScreenCaptureApp.Core` | Geometry, selection, annotations, editor commands, and history |
-| `src/ScreenCaptureApp.Windows` | Capture, displays, hotkeys, clipboard, settings, startup, and single-instance IPC |
-| `src/ScreenCaptureApp.App` | WPF tray application, overlay, toolbars, export workflow, and settings UI |
+| `src/ScreenCaptureApp.Core` | Geometry, selection, annotations, editor commands, history |
+| `src/ScreenCaptureApp.Windows` | Capture, displays, hotkeys, clipboard, settings, startup, single-instance IPC |
+| `src/ScreenCaptureApp.App` | WPF tray app, overlay, toolbars, export workflow, settings UI |
 | `tests/` | Core, Windows-infrastructure, and export-safety tests |
-| `installer/` | Inno Setup definition and installer notes |
-| `packaging/enterprise/` | WiX MSI and Group Policy Administrative Templates |
+| `installer/` | Inno Setup definition |
+| `packaging/enterprise/` | WiX MSI and Group Policy templates |
 | `extensions/chromium/` | Edge/Chrome visible-tab capture extension |
-| `eng/` | Repeatable release build script |
-| `docs/` | Requirements, architecture, privacy, testing, and decisions |
-| `plans/` | Original implementation blueprint |
+| `deploy/libretranslate/` | Self-hosted translation backend |
+| `eng/` | Release build script |
+| `docs/` | Requirements, architecture, privacy, testing |
 
-## Current alpha limitations
+## Known limitations
 
-- Capture and selection are limited to one monitor at a time; cross-monitor selection is planned.
-- Windows spanning more than one monitor are not offered for whole-window selection in this alpha.
-- HDR, protected content, and exclusive-fullscreen applications may not capture as expected with the initial GDI backend.
-- The installer and binaries are not code-signed.
-- Upload, cloud galleries, user accounts, and comments remain absent. The alpha never sends captured pixels over the network.
-- Translation is optional and sends extracted text—not image pixels—only after the user presses Translate.
-- Scrolling capture is user-stepped: the user scrolls between page captures; application-specific automatic scrolling is not yet reliable across browsers and desktop frameworks.
-- The Chromium extension is loadable from source but is not published in browser stores.
-- Native macOS and Linux desktop clients do not exist yet.
-- Automatic updates are not enabled until a public release feed and code-signing identity exist.
-- Visual and interaction testing across the full mixed-DPI hardware matrix remains a release gate.
+- **Not code-signed.** SmartScreen will complain, and automatic updates stay off
+  until a signing identity and release feed exist.
+- **One monitor per capture.** Cross-monitor selection is planned; windows
+  spanning monitors aren't offered for whole-window selection.
+- **HDR, protected content, and exclusive-fullscreen** may not capture correctly
+  with the GDI backend.
+- **Scrolling capture is manual** — you scroll between page captures. Automatic
+  scrolling isn't reliable enough across browsers and desktop frameworks yet.
+- **The browser extension** loads from source only; it isn't in any store.
+- **Windows only.** No macOS or Linux client.
+- Mixed-DPI hardware testing remains a release gate.
+
+## Code signing
+
+[Free code signing provided by SignPath.io, certificate by SignPath
+Foundation](docs/code-signing.md). Approval is pending, so this alpha is
+explicitly unsigned.
+
+- Committer and reviewer: [@77degrees](https://github.com/77degrees)
+- Signing approver: [@77degrees](https://github.com/77degrees)
+- Privacy: This program will not transfer any information to other networked
+  systems unless specifically requested by the user or the person installing or
+  operating it.
 
 ## Documentation
 
-- [Documentation index](docs/README.md)
-- [Product requirements](docs/requirements.md)
-- [Architecture](docs/architecture.md)
-- [Security and privacy](docs/security-and-privacy.md)
-- [Code signing policy](docs/code-signing.md)
-- [Testing strategy](docs/testing.md)
-- [Decision log](docs/decisions.md)
-- [Brand and naming](docs/branding.md)
-- [Implementation blueprint](plans/windows-screenshot-tool-blueprint.md)
-- [Changelog](CHANGELOG.md)
+[Documentation index](docs/README.md) — or open `docs/index.html` in a browser
+after running `docs/serve.cmd`.
+
+[Requirements](docs/requirements.md) ·
+[Architecture](docs/architecture.md) ·
+[Security and privacy](docs/security-and-privacy.md) ·
+[Testing](docs/testing.md) ·
+[Code signing](docs/code-signing.md) ·
+[Changelog](CHANGELOG.md)
 
 ## Contributing and license
 
-SnipArc is open-source software under the [MIT License](LICENSE).
-Contributions are welcome; read [CONTRIBUTING.md](CONTRIBUTING.md) before
-opening a pull request. Report suspected vulnerabilities privately according
-to [SECURITY.md](SECURITY.md).
-
-## Platform references
-
-Platform and packaging decisions use Microsoft documentation for [.NET support](https://dotnet.microsoft.com/en-us/platform/support/policy), [WPF](https://learn.microsoft.com/en-us/dotnet/desktop/wpf/), [high-DPI desktop applications](https://learn.microsoft.com/en-us/windows/win32/hidpi/high-dpi-desktop-application-development-on-windows), [Windows screen capture](https://learn.microsoft.com/en-us/windows/apps/develop/media-authoring-processing/screen-capture), and [Windows code signing](https://learn.microsoft.com/en-us/windows/apps/package-and-deploy/code-signing-options).
+MIT licensed. Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull
+request, and report suspected vulnerabilities privately per
+[SECURITY.md](SECURITY.md).
