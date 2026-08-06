@@ -14,6 +14,9 @@ else.
 > **Status: `0.2.0-alpha`, Windows 11 x64.** Working and in daily use, but the
 > installer is unsigned. See [limitations](#known-limitations).
 
+<p align="center"><img src="assets/screenshots/capture-overlay.png" alt="The SnipArc overlay dimming the screen, with one window highlighted and labelled &quot;Click to capture window&quot;" width="820"></p>
+<p align="center"><sub>Press the shortcut and the screen dims. Hover any window to take it whole, or drag for a custom area.</sub></p>
+
 ## Install
 
 Download `SnipArc-Setup-x64.exe` from [releases](https://github.com/77degrees/SnipArc/releases).
@@ -44,6 +47,14 @@ Once the overlay is up:
 Live pixel dimensions, undo/redo, and per-tool keyboard shortcuts are shown in
 the tooltips.
 
+<p align="center"><img src="assets/screenshots/selection.png" alt="A selected region with eight resize handles, a live 1270 by 630 pixel size label, the tool palette on the right and the action bar below" width="820"></p>
+<p align="center"><sub>The selection carries eight handles and a live pixel size. Tools sit on the right, actions below.</sub></p>
+
+Right-click the tray icon for the menu, or double-click it to capture without
+touching the keyboard.
+
+<p align="center"><img src="assets/screenshots/tray-menu.png" alt="The SnipArc tray menu listing Capture area, Open capture folder, Settings, About and Exit"></p>
+
 ## What it does
 
 **Capture** — physical-pixel GDI capture with mixed-DPI-aware overlay
@@ -55,9 +66,22 @@ preview.
 lossy formats when a capture contains it, so you cannot accidentally publish a
 JPEG whose artifacts leak what you covered.
 
+<p align="center"><img src="assets/screenshots/annotate.png" alt="A capture marked up with a red box around a QR code, an arrow pointing at a status badge, a highlighted table row and a text label" width="820"></p>
+<p align="center"><sub>Pen, line, arrow, rectangle, highlighter and text. Each tool has a single-key shortcut.</sub></p>
+
+The two obscuring tools are not the same thing, and the difference matters.
+Pixelation scrambles pixels and can sometimes be reversed. Opaque redaction
+paints solid colour over the region and destroys what was underneath.
+
+<p align="center"><img src="assets/screenshots/redaction.png" alt="A details card where an account number is pixelated and an email address is covered by a solid black bar"></p>
+<p align="center"><sub>Pixelated account number above, opaque redaction over the email below.</sub></p>
+
 **Extract** — offline English OCR and multi-format barcode/QR recognition, both
 fully local. Optional translation is the one feature that can reach the network,
 and only when you press Translate.
+
+<p align="center"><img src="assets/screenshots/extract.png" alt="The extract window showing 92 percent OCR confidence, one code found, tabs for Text, Barcodes and Translation, and a note that recognition runs locally"></p>
+<p align="center"><sub>OCR confidence and decoded codes, with the network boundary stated on the window itself.</sub></p>
 
 **Beyond a single frame** — user-stepped scrolling capture with automatic
 vertical-overlap removal, and animated GIF recording at 8 FPS for up to 15
@@ -75,6 +99,10 @@ One exception, off by default: if you configure a translation endpoint, pressing
 Translate sends the **extracted text** — never image pixels — to the URL you
 chose. The endpoint must be HTTPS, or plain HTTP only when it runs on your own
 machine. Group Policy can disable it outright.
+
+The translation endpoint ships empty, which is what turns translation off.
+
+<p align="center"><img src="assets/screenshots/settings.png" alt="The SnipArc settings window showing capture folder, quick-save format, capture shortcut, an empty translation endpoint, and checkboxes for startup and notifications"></p>
 
 Self-host the translation backend so nothing leaves your network:
 [deploy/libretranslate](deploy/libretranslate/README.md). Full data handling is
