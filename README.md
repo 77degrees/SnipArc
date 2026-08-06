@@ -5,7 +5,7 @@ Screenshot capture and annotation for Windows that keeps your screenshots on you
 [![CI](https://github.com/77degrees/SnipArc/actions/workflows/ci.yml/badge.svg)](https://github.com/77degrees/SnipArc/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-![SnipArc icon](assets/app-icon.png)
+<p align="center"><img src="assets/app-icon.png" alt="SnipArc icon" width="128"></p>
 
 Press a key, drag a box, mark it up, paste it. No account, no upload, no
 gallery, no telemetry. Captures go to your clipboard or your disk and nowhere
